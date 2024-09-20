@@ -4,8 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DatabaseConnection {
-    // Singleton instance
+    static final Logger logger = LoggerFactory.getLogger(DatabaseConnection.class);
+
     private static DatabaseConnection instance;
     private Connection connection;
 
@@ -17,6 +21,7 @@ public class DatabaseConnection {
         try {
             Class.forName("org.postgresql.Driver");
             this.connection = DriverManager.getConnection(url, user, password);
+            logger.info("Connected to database successfully!");
 
         } catch (ClassNotFoundException e) {
             System.out.println("PostgreSQL JDBC Driver not found: " + e.getMessage());
