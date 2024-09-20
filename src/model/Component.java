@@ -23,7 +23,7 @@ public abstract class Component {
         this.vatRate = vatRate;
     }
 
-  
+    public abstract double calculateCost();
 
     public Long getId() {
       return this.id;

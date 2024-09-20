@@ -30,11 +30,10 @@ public class Material extends Component {
         this.qualityCoefficient = qualityCoefficient;
     }
 
+    @Override
     public double calculateCost() {
         return (this.quantity * this.unitCost * this.qualityCoefficient) + this.transportCost;
     }
-
-
 
     public double getTransportCost() {
       return this.transportCost;

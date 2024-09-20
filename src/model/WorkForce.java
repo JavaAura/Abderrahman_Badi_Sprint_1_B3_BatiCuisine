@@ -26,7 +26,7 @@ public class WorkForce extends Component {
         this.workerProductivity = workerProductivity;
     }
 
-    
+    @Override
     public double calculateCost() {
         return this.hourlyRate * this.workHours * this.workerProductivity;
     }

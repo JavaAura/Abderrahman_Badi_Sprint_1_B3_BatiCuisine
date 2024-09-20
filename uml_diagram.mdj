@@ -965,30 +965,11 @@
 									"model": {
 										"$ref": "AAAAAAGR8rohAPo6ebI="
 									},
-									"subViews": [
-										{
-											"_type": "UMLOperationView",
-											"_id": "AAAAAAGSDymQtNiSOs4=",
-											"_parent": {
-												"$ref": "AAAAAAGR8rohAvpD3K4="
-											},
-											"model": {
-												"$ref": "AAAAAAGSDymQp9iP8xQ="
-											},
-											"font": "Arial;13;0",
-											"left": 749,
-											"top": 699,
-											"width": 167,
-											"height": 13,
-											"text": "+Operation1()",
-											"horizontalAlignment": 0
-										}
-									],
 									"font": "Arial;13;0",
 									"left": 744,
 									"top": 694,
 									"width": 177,
-									"height": 23
+									"height": 10
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -1028,7 +1009,7 @@
 							"left": 744,
 							"top": 616,
 							"width": 176,
-							"height": 116,
+							"height": 104,
 							"nameCompartment": {
 								"$ref": "AAAAAAGR8rohAvo90Io="
 							},
@@ -1771,7 +1752,7 @@
 											"top": 522,
 											"width": 207,
 											"height": 13,
-											"text": "+Total()",
+											"text": "+calculateCost()",
 											"horizontalAlignment": 0
 										}
 									],
@@ -1857,7 +1838,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 742,
+									"left": 744,
 									"top": 581,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -1878,8 +1859,8 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 730,
-									"top": 590,
+									"left": 733,
+									"top": 591,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -1899,7 +1880,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 765,
+									"left": 767,
 									"top": 562,
 									"height": 13,
 									"alpha": -1.5707963267948966,
@@ -1918,7 +1899,7 @@
 								"$ref": "AAAAAAGR8rohAvo8I68="
 							},
 							"lineStyle": 1,
-							"points": "784:615;724:541",
+							"points": "788:615;725:541",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGR9M2dN/u+4QQ="
@@ -3284,16 +3265,6 @@
 							"visibility": "private",
 							"type": "double"
 						}
-					],
-					"operations": [
-						{
-							"_type": "UMLOperation",
-							"_id": "AAAAAAGSDymQp9iP8xQ=",
-							"_parent": {
-								"$ref": "AAAAAAGR8rohAPo6ebI="
-							},
-							"name": "Operation1"
-						}
 					]
 				},
 				{
@@ -3567,7 +3538,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGR9MswVfs5nvI="
 							},
-							"name": "Total"
+							"name": "calculateCost"
 						}
 					]
 				},
