@@ -683,7 +683,7 @@
 											"top": 661,
 											"width": 167,
 											"height": 13,
-											"text": "-coefficientQuality: double",
+											"text": "-qualityCoefficient: double",
 											"horizontalAlignment": 0
 										},
 										{
@@ -965,11 +965,30 @@
 									"model": {
 										"$ref": "AAAAAAGR8rohAPo6ebI="
 									},
+									"subViews": [
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAGSDymQtNiSOs4=",
+											"_parent": {
+												"$ref": "AAAAAAGR8rohAvpD3K4="
+											},
+											"model": {
+												"$ref": "AAAAAAGSDymQp9iP8xQ="
+											},
+											"font": "Arial;13;0",
+											"left": 749,
+											"top": 699,
+											"width": 167,
+											"height": 13,
+											"text": "+Operation1()",
+											"horizontalAlignment": 0
+										}
+									],
 									"font": "Arial;13;0",
 									"left": 744,
 									"top": 694,
 									"width": 177,
-									"height": 10
+									"height": 23
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -1009,7 +1028,7 @@
 							"left": 744,
 							"top": 616,
 							"width": 176,
-							"height": 104,
+							"height": 116,
 							"nameCompartment": {
 								"$ref": "AAAAAAGR8rohAvo90Io="
 							},
@@ -1838,7 +1857,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 744,
+									"left": 742,
 									"top": 581,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -1859,8 +1878,8 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 733,
-									"top": 591,
+									"left": 730,
+									"top": 590,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -1880,7 +1899,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 767,
+									"left": 765,
 									"top": 562,
 									"height": 13,
 									"alpha": -1.5707963267948966,
@@ -1899,7 +1918,7 @@
 								"$ref": "AAAAAAGR8rohAvo8I68="
 							},
 							"lineStyle": 1,
-							"points": "788:615;725:541",
+							"points": "784:615;724:541",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGR9M2dN/u+4QQ="
@@ -3186,7 +3205,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGR7MmEtPncsKE="
 							},
-							"name": "coefficientQuality",
+							"name": "qualityCoefficient",
 							"visibility": "private",
 							"type": "double"
 						},
@@ -3264,6 +3283,16 @@
 							"name": "workerProductivity",
 							"visibility": "private",
 							"type": "double"
+						}
+					],
+					"operations": [
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAGSDymQp9iP8xQ=",
+							"_parent": {
+								"$ref": "AAAAAAGR8rohAPo6ebI="
+							},
+							"name": "Operation1"
 						}
 					]
 				},
