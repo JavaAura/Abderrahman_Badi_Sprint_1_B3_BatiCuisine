@@ -1,0 +1,8 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\YCode\\Documents\\Github\\postgresql-42.7.4.jar",
+        "c:\\Users\\YCode\\Downloads\\Compressed\\Med_Hachami_S1_B3_Bati-Cuisine-main\\lib\\slf4j-api-2.0.9.jar",
+        "c:\\Users\\YCode\\Downloads\\Compressed\\Med_Hachami_S1_B3_Bati-Cuisine-main\\lib\\slf4j-simple-2.0.9.jar"
+    ]
+}
