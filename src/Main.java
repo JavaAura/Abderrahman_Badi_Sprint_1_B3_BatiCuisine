@@ -1,8 +1,8 @@
-import util.LoggerUtils;
-
 public class Main {
     public static void main(String[] args) {
-      LoggerUtils.logger.info("Performing a task...");
+        System.out.println("\033[H\033[2J"); // Clears the console
+
+            
     }
 
 }
