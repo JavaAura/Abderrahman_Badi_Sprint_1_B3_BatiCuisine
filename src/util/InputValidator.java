@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public final class InputValidator {
 
-    public static Scanner in = new Scanner(System.in).useDelimiter(System.lineSeparator());
+    public static Scanner in = IO.getScanner();
 
     // Private constructor
     private InputValidator() {
