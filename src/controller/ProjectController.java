@@ -1,10 +1,12 @@
 package controller;
 
+import service.ProjectService;
 import view.interfaces.View;
 import view.menu.ProjectMenu;
 
 public class ProjectController {
     private View projectMenu = new ProjectMenu();
+    private ProjectService projectService = new ProjectService();
     private boolean isRunning = true;
 
     public void startProjectMenu() {
@@ -18,7 +20,7 @@ public class ProjectController {
     private void handleChoice(int choice) {
         switch (choice) {
             case 1:
-                System.out.println("List of ongoing projects");
+                projectService.getAll(null);
                 projectMenu.back();
                 break;
             case 2:

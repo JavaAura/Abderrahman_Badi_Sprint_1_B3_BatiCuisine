@@ -8,28 +8,23 @@ public class Quote {
   private LocalDate issueDate;
   private LocalDate validityDate;
   private boolean isAccepted;
-  private Project projet;
 
   public Quote() {
   }
 
-  public Quote(double estimatedAmount, LocalDate issueDate, LocalDate validityDate, boolean isAccepted,
-      Project projet) {
+  public Quote(double estimatedAmount, LocalDate issueDate, LocalDate validityDate, boolean isAccepted) {
     this.estimatedAmount = estimatedAmount;
     this.issueDate = issueDate;
     this.validityDate = validityDate;
     this.isAccepted = isAccepted;
-    this.projet = projet;
   }
 
-  public Quote(long id, double estimatedAmount, LocalDate issueDate, LocalDate validityDate, boolean isAccepted,
-      Project projet) {
+  public Quote(long id, double estimatedAmount, LocalDate issueDate, LocalDate validityDate, boolean isAccepted) {
     this.id = id;
     this.estimatedAmount = estimatedAmount;
     this.issueDate = issueDate;
     this.validityDate = validityDate;
     this.isAccepted = isAccepted;
-    this.projet = projet;
   }
 
   public Long getId() {
@@ -70,13 +65,5 @@ public class Quote {
 
   public void setIsAccepted(boolean value) {
     this.isAccepted = value;
-  }
-
-  public Project getProjet() {
-    return this.projet;
-  }
-
-  public void setProjet(Project value) {
-    this.projet = value;
   }
 }

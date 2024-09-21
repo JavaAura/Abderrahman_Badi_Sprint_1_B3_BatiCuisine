@@ -12,23 +12,25 @@ public class Project {
   private ProjectStatus projectStatus;
   private Double surface;
   private Client client;
+  private Quote quote;
   private List<Component> components;
 
   public Project() {
   }
 
   public Project(String projectName, Double profitMargin, Double totalCost, ProjectStatus projectStatus, Double surface,
-      Client client) {
+      Client client, Quote quote) {
     this.projectName = projectName;
     this.profitMargin = profitMargin;
     this.totalCost = totalCost;
     this.projectStatus = projectStatus;
     this.surface = surface;
     this.client = client;
+    this.quote = quote;
   }
 
   public Project(Long id, String projectName, Double profitMargin, Double totalCost, ProjectStatus projectStatus, Double surface,
-      Client client) {
+      Client client, Quote quote) {
     this.id = id;
     this.projectName = projectName;
     this.profitMargin = profitMargin;
@@ -36,6 +38,7 @@ public class Project {
     this.projectStatus = projectStatus;
     this.surface = surface;
     this.client = client;
+    this.quote = quote;
   }
 
   public Long getId() {
@@ -101,4 +104,11 @@ public class Project {
   public void setSurface(Double value) {
     this.surface = value;
   }
+
+    public Quote getQuote() {
+      return this.quote;
+    }
+    public void setQuote(Quote value) {
+      this.quote = value;
+    }
 }

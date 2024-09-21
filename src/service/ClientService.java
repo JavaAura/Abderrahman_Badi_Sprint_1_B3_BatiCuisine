@@ -18,11 +18,7 @@ public class ClientService implements ClientRepository {
     private static Connection con = DatabaseConnection.getConnection();
 
     @Override
-    public Boolean addClient(Client client) throws SQLException {
-        if (con == null) {
-            throw new SQLException("Database connection is not initialized.");
-        }
-
+    public Boolean addClient(Client client) {
         PreparedStatement stmt = null;
 
         try {
@@ -62,12 +58,8 @@ public class ClientService implements ClientRepository {
     }
 
     @Override
-    public Optional<Client> findClientByName(String nom) throws SQLException {
+    public Optional<Client> findClientByName(String nom){
         Client client = new Client();
-        if (con == null) {
-            throw new SQLException("Database connection is not initialized.");
-        }
-
         PreparedStatement stmt = null;
         ResultSet rs = null;
 

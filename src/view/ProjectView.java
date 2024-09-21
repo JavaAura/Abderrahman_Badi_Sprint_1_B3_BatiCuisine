@@ -3,7 +3,6 @@ package view;
 import java.util.List;
 
 import model.Project;
-import model.Quote;
 
 public class ProjectView {
 
@@ -37,7 +36,7 @@ public class ProjectView {
                 }
         }
 
-        public void showDetails(Project project, Quote quote) {
+        public void showDetails(Project project) {
                 System.out.println(
                                 "+------------------------------------------------------------------------------------------------------------+");
                 System.out.printf(
@@ -61,11 +60,11 @@ public class ProjectView {
                 System.out.println(
                                 "|\t\t                                                                            \t\t|");
                 System.out.printf(
-                                "|\t\t \t Estimated Amount : %-46d  \t\t|\n", quote.getEstimatedAmount());
+                                "|\t\t \t Estimated Amount : %-46d  \t\t|\n", project.getQuote().getEstimatedAmount());
                 System.out.printf(
-                                "|\t\t \t Issue Date : %-52s   \t\t|\n", quote.getIssueDate());
+                                "|\t\t \t Issue Date : %-52s   \t\t|\n", project.getQuote().getIssueDate());
                 System.out.printf(
-                                "|\t\t \t Validity Date : %-49s   \t\t|\n", quote.getValidityDate());
+                                "|\t\t \t Validity Date : %-49s   \t\t|\n", project.getQuote().getValidityDate());
                 System.out.println(
                                 "|\t\t                                                                            \t\t|");
                 System.out.println(

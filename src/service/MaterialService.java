@@ -15,10 +15,7 @@ public class MaterialService implements MaterialRepository {
     private static Connection con = DatabaseConnection.getConnection();
 
     @Override
-    public Boolean addMaterial(Material material) throws SQLException {
-        if (con == null) {
-            throw new SQLException("Database connection is not initialized.");
-        }
+    public Boolean addMaterial(Material material) {
         PreparedStatement stmt = null;
 
         try {

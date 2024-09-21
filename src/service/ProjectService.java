@@ -1,35 +1,71 @@
 package service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 import enums.ProjectStatus;
 import model.Project;
 import repository.ProjectRepository;
+import util.DatabaseConnection;
 
 public class ProjectService implements ProjectRepository {
 
-    @Override
-    public Boolean addProject(Project project) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addProject'");
-    }
+    private static final String SQL_FIND_BY_ID = "SELECT * FROM public.project WHERE id = ?";
+    private static final String SQL_LIST = "SELECT * FROM public.project WHERE is_deleted = false ORDER BY id ASC";
+    private static final String SQL_INSERT = "INSERT INTO public.project(project_name, profit_margin, total_cost, surface, user_id) VALUES (?, ?, ?, ?, ?)";
+
+    private static Connection con = DatabaseConnection.getConnection();
 
     @Override
-    public Optional<Project> get(long id) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
-    }
+    public Boolean addProject(Project project) {
+        PreparedStatement stmt = null;
 
+        try {
+            stmt = con.prepareStatement(SQL_INSERT);
+            stmt.setString(1, project.getProjectName());
+            stmt.setDouble(2, project.getProfitMargin());
+            stmt.setDouble(3, project.getTotalCost());
+            stmt.setDouble(4, project.getSurface());
+            stmt.setLong(5, project.getClient().getId());
+
+            int n = stmt.executeUpdate();
+
+            return n == 1;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+        return false;
+
+    }
     @Override
-    public List<Project> getAll(ProjectStatus projectStatus) throws SQLException {
-        // TODO Auto-generated method stub
+    public List<Project> getAll(ProjectStatus projectStatus) {
+
         throw new UnsupportedOperationException("Unimplemented method 'getAll'");
     }
 
     @Override
-    public Boolean updateStatus(Project project) throws SQLException {
+    public Boolean updateStatus(Project project) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateStatus'");
     }
