@@ -33,21 +33,21 @@ public class ClientService implements ClientRepository {
             return n == 1;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); //Need to log here
         } finally {
 
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //Need to log here
                 }
             }
             if (con != null) {
                 try {
                     con.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //Need to log here
                 }
             }
 
@@ -77,27 +77,27 @@ public class ClientService implements ClientRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); //Need to log here
         } finally {
             if (rs != null) {
                 try {
                     rs.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //Need to log here
                 }
             }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //Need to log here
                 }
             }
             if (con != null) {
                 try {
                     con.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //Need to log here
                 }
             }
         }

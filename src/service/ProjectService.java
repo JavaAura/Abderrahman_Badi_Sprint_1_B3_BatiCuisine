@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import enums.ProjectStatus;
 import model.Project;
@@ -12,11 +13,16 @@ import util.DatabaseConnection;
 
 public class ProjectService implements ProjectRepository {
 
-    private static final String SQL_FIND_BY_ID = "SELECT * FROM public.project WHERE id = ?";
-    private static final String SQL_LIST = "SELECT * FROM public.project WHERE is_deleted = false ORDER BY id ASC";
-    private static final String SQL_INSERT = "INSERT INTO public.project(project_name, profit_margin, total_cost, surface, user_id, quote_id) VALUES (?, ?, ?, ?, ?)";
+    private static final String SQL_LIST = "SELECT * FROM public.project JOIN public.client ON project.user_id = client.id JOIN public.quote ON project.quote_id = quote.id ORDER BY project.id ASC";
+    private static final String SQL_INSERT = "INSERT INTO public.project(project_name, profit_margin, total_cost, surface, user_id, quote_id) VALUES (?, ?, ?, ?, ?, ?)";
 
     private static Connection con = DatabaseConnection.getConnection();
+
+    @Override
+    public Optional<Project> get(long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'get'");
+    }
 
     @Override
     public Boolean addProject(Project project) {
@@ -29,27 +35,28 @@ public class ProjectService implements ProjectRepository {
             stmt.setDouble(3, project.getTotalCost());
             stmt.setDouble(4, project.getSurface());
             stmt.setLong(5, project.getClient().getId());
+            stmt.setLong(6, project.getQuote().getId());
 
             int n = stmt.executeUpdate();
 
             return n == 1;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); //Need to log here
         } finally {
 
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //Need to log here
                 }
             }
             if (con != null) {
                 try {
                     con.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //Need to log here
                 }
             }
 

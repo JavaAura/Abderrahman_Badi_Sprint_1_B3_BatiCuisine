@@ -33,21 +33,21 @@ public class MaterialService implements MaterialRepository {
             return n == 1;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); //Need to log here
             return false;
         } finally {
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //Need to log here
                 }
             }
             if (con != null) {
                 try {
                     con.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //Need to log here
                 }
             }
         }
