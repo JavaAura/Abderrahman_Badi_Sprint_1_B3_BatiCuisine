@@ -1,6 +1,6 @@
 CREATE DATABASE BatiCuisine;
 
-USE BatiCuisine;
+\c BatiCuisine
 
 CREATE TYPE component_type AS ENUM ('MATERIAL', 'WORKFORCE');
 CREATE TYPE project_status AS ENUM ('ONGOING', 'FINISHED', 'CANCELED');
