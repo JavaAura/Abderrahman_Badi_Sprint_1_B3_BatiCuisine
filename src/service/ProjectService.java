@@ -14,7 +14,7 @@ public class ProjectService implements ProjectRepository {
 
     private static final String SQL_FIND_BY_ID = "SELECT * FROM public.project WHERE id = ?";
     private static final String SQL_LIST = "SELECT * FROM public.project WHERE is_deleted = false ORDER BY id ASC";
-    private static final String SQL_INSERT = "INSERT INTO public.project(project_name, profit_margin, total_cost, surface, user_id) VALUES (?, ?, ?, ?, ?)";
+    private static final String SQL_INSERT = "INSERT INTO public.project(project_name, profit_margin, total_cost, surface, user_id, quote_id) VALUES (?, ?, ?, ?, ?)";
 
     private static Connection con = DatabaseConnection.getConnection();
 
