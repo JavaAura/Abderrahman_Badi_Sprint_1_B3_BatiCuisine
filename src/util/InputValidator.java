@@ -73,7 +73,7 @@ public final class InputValidator {
 
     }
 
-    public static Double promptAndParseDouble(String message, int min, int max) {
+    public static Double promptAndParseDouble(String message, double min, double max) {
         do {
             try {
                 System.out.print(message);
@@ -217,4 +217,18 @@ public final class InputValidator {
         } while (true);
     }
 
+    public static boolean promptYesOrNo(String message) {
+        String input;
+        do {
+            System.out.print(message + " (y/n): ");
+            input = in.next().trim().toLowerCase();
+            if (input.equals("y")) {
+                return true;
+            } else if (input.equals("n")) {
+                return false;
+            } else {
+                System.out.println("Invalid input. Please enter 'y' or 'n'.");
+            }
+        } while (true);
+    }
 }

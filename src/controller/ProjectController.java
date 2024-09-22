@@ -21,6 +21,7 @@ import view.interfaces.View;
 import view.menu.ProjectMenu;
 
 import util.IO;
+import util.InputValidator;
 
 public class ProjectController {
 
@@ -59,12 +60,16 @@ public class ProjectController {
     }
 
     public void addProjectUI() {
-    
+
         Client selectedClient = startClientMenu();
         Project project = projectView.addProjectUI();
         List<Material> materials = componentView.addMaterialUI();
         List<WorkForce> workForces = componentView.addWorkForceUI();
 
+        projectView.showProjectSummary(project, selectedClient, materials, workForces);
+        if(InputValidator.promptYesOrNo("Do you want to save the project")){
+
+        }
     }
 
     private void handleChoice(int choice) {

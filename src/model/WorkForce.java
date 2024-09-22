@@ -10,9 +10,9 @@ public class WorkForce extends Component {
     public WorkForce() {
     }
 
-    public WorkForce(String name, ComponentType componentType, double hourlyRate, double workHours,
+    public WorkForce(String name, double hourlyRate, double workHours,
             double workerProductivity) {
-        super(name, componentType);
+        super(name);
         this.hourlyRate = hourlyRate;
         this.workHours = workHours;
         this.workerProductivity = workerProductivity;
@@ -28,7 +28,7 @@ public class WorkForce extends Component {
 
     @Override
     public double calculateCost() {
-        return this.hourlyRate * this.workHours * this.workerProductivity;
+        return (this.hourlyRate * this.workHours) * this.workerProductivity;
     }
 
     public double getHourlyRate() {

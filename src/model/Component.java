@@ -9,9 +9,8 @@ public abstract class Component {
 
     public Component(){}
 
-    public Component(String name, ComponentType componentType){
+    public Component(String name){
         this.name = name;
-        this.componentType = componentType;
     }
 
     public Component(Long id ,String name, ComponentType componentType){

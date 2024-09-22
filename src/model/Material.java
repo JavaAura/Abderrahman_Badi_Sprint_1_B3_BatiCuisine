@@ -11,9 +11,9 @@ public class Material extends Component {
     public Material() {
     }
 
-    public Material(String name, ComponentType componentType, double unitCost, double quantity,
+    public Material(String name, double unitCost, double quantity,
             double transportCost, double qualityCoefficient) {
-        super(name, componentType);
+        super(name);
         this.unitCost = unitCost;
         this.quantity = quantity;
         this.transportCost = transportCost;
@@ -32,7 +32,7 @@ public class Material extends Component {
 
     @Override
     public double calculateCost() {
-        return (this.quantity * this.unitCost * this.qualityCoefficient) + this.transportCost;
+        return ((this.quantity * this.unitCost) * this.qualityCoefficient) + this.transportCost;
     }
 
     public double getTransportCost() {

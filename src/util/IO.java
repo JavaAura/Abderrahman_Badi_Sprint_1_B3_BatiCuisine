@@ -24,6 +24,6 @@ public class IO {
     }
 
     public static void clear() {
-        IO.clear();
+        System.out.println("\033[H\033[2J");
     }
 }

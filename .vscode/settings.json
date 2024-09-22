@@ -2,5 +2,6 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "c:\\Users\\YCode\\Documents\\Github\\postgresql-42.7.4.jar"
-    ]
+    ],
+    "java.format.enabled": true,
 }
