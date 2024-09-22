@@ -6,7 +6,7 @@ import model.Client;
 
 public interface ClientRepository {
     
-    public Boolean addClient(Client client);
+    public Client addClient(Client client);
     public List<Client> findClientByName(String nom);
     
 }

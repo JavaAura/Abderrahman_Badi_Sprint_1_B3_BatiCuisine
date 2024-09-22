@@ -2,6 +2,7 @@ package service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -24,9 +25,9 @@ public class ProjectService implements ProjectRepository {
     }
 
     @Override
-    public Boolean addProject(Project project) {
+    public Project addProject(Project project) {
         try (Connection con = DatabaseConnection.getConnection();
-                PreparedStatement stmt = con.prepareStatement(SQL_INSERT);) {
+                PreparedStatement stmt = con.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);) {
             stmt.setString(1, project.getProjectName());
             stmt.setDouble(2, project.getProfitMargin());
             stmt.setDouble(3, project.getTotalCost());
@@ -35,15 +36,23 @@ public class ProjectService implements ProjectRepository {
             stmt.setLong(6, project.getQuote().getId());
 
             int n = stmt.executeUpdate();
-            if (n == 1) {
-                LoggerUtils.logger.info("Project added successfully: " + project.getProjectName());
-                return true;
+            if (n > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        long generatedId = rs.getLong(1); 
+                        project.setId(generatedId);
+                        LoggerUtils.logger.info("Project added successfully with ID: " + generatedId);
+                        return project;
+                    }
+                }
+            } else {
+                LoggerUtils.logger.warning("Project insertion failed, no rows affected.");
             }
         } catch (SQLException e) {
             LoggerUtils.logger.warning("Error adding project: " + e.getMessage());
             LoggerUtils.logStackTrace(e);
         }
-        return false;
+        return null;
     }
 
     @Override

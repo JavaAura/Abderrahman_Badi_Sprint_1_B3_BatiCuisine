@@ -1,5 +1,6 @@
 package controller;
 
+import util.IO;
 import view.interfaces.View;
 import view.menu.MainMenu;
 
@@ -10,7 +11,7 @@ public class MenuController {
 
     public void startMainMenu() {
         while (isRunning) {
-            System.out.println("\033[H\033[2J");
+            IO.clear();
             int choice = mainMenu.display();
             handleChoice(choice);
         }

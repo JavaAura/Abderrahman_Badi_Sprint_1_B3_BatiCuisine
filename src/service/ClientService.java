@@ -14,13 +14,13 @@ import repository.ClientRepository;
 
 public class ClientService implements ClientRepository {
 
-    private static final String SQL_FIND_BY_NAME = "SELECT * from public.client WHERE name LIKE ?";
-    private static final String SQL_INSERT = "INSERT INTO public.client(name , address, phone_number, is_proessional) VALUES (?,?,?,?)";
+    private static final String SQL_FIND_BY_NAME = "SELECT * from public.client WHERE name ILIKE ?";
+    private static final String SQL_INSERT = "INSERT INTO public.client(name , address, phone_number, is_professional) VALUES (?,?,?,?)";
 
     @Override
-    public Boolean addClient(Client client) {
+    public Client addClient(Client client) {
         try (Connection con = DatabaseConnection.getConnection();
-                PreparedStatement stmt = con.prepareStatement(SQL_INSERT);) {
+                PreparedStatement stmt = con.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);) {
             stmt.setString(1, client.getName());
             stmt.setString(2, client.getAddress());
             stmt.setString(3, client.getPhoneNumber());
@@ -28,16 +28,24 @@ public class ClientService implements ClientRepository {
 
             int n = stmt.executeUpdate();
 
-            if (n == 1) {
-                LoggerUtils.logger.info("Client added successfully: " + client.getName());
-                return true;
+            if (n > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        long generatedId = rs.getLong(1); 
+                        client.setId(generatedId);
+                        LoggerUtils.logger.info("Client added successfully with ID: " + generatedId);
+                        return client;
+                    }
+                }
+            } else {
+                LoggerUtils.logger.warning("Client insertion failed, no rows affected.");
             }
-
         } catch (SQLException e) {
             LoggerUtils.logger.warning(e.getMessage());
             LoggerUtils.logStackTrace(e);
         }
-        return false;
+
+        return null;
 
     }
 

@@ -11,6 +11,7 @@ public class Project {
   private Double totalCost;
   private ProjectStatus projectStatus;
   private Double surface;
+  private Double vatRate;
   private Client client;
   private Quote quote;
   private List<Component> components;
@@ -18,25 +19,34 @@ public class Project {
   public Project() {
   }
 
+  public Project(String projectName, Double profitMargin, Double surface, Double vatRate) {
+    this.projectName = projectName;
+    this.surface = surface;
+    this.vatRate = vatRate;
+    this.profitMargin = profitMargin;
+  }
+
   public Project(String projectName, Double profitMargin, Double totalCost, ProjectStatus projectStatus, Double surface,
-      Client client, Quote quote) {
+      Double vatRate, Client client, Quote quote) {
     this.projectName = projectName;
     this.profitMargin = profitMargin;
     this.totalCost = totalCost;
     this.projectStatus = projectStatus;
     this.surface = surface;
+    this.vatRate = vatRate;
     this.client = client;
     this.quote = quote;
   }
 
-  public Project(Long id, String projectName, Double profitMargin, Double totalCost, ProjectStatus projectStatus, Double surface,
-      Client client, Quote quote) {
+  public Project(Long id, String projectName, Double profitMargin, Double totalCost, ProjectStatus projectStatus,
+      Double surface, Double vatRate, Client client, Quote quote) {
     this.id = id;
     this.projectName = projectName;
     this.profitMargin = profitMargin;
     this.totalCost = totalCost;
     this.projectStatus = projectStatus;
     this.surface = surface;
+    this.vatRate = vatRate;
     this.client = client;
     this.quote = quote;
   }
@@ -105,10 +115,18 @@ public class Project {
     this.surface = value;
   }
 
-    public Quote getQuote() {
-      return this.quote;
+  public Quote getQuote() {
+    return this.quote;
+  }
+
+  public void setQuote(Quote value) {
+    this.quote = value;
+  }
+
+    public Double getVatRate() {
+      return this.vatRate;
     }
-    public void setQuote(Quote value) {
-      this.quote = value;
+    public void setVatRate(Double value) {
+      this.vatRate = value;
     }
 }

@@ -13,21 +13,21 @@ public final class InputValidator {
     }
 
     public static int promptAndParseInt(String message, int min, int max) {
-            try {
-                System.out.print(message);
-                int input = in.nextInt();
-                if (input >= min && input <= max) {
-                    return input;
-                } else {
-                    System.out.print("Please pick a choice between " + min + " and " + max + "...");
-                    in.next();
-                }
-            } catch (Exception e) {
-                System.out.print("Please pick a valid number...");
-                in.next();
+        try {
+            System.out.print(message);
+            int input = in.nextInt();
+            if (input >= min && input <= max) {
+                return input;
+            } else {
+                System.out.print("Please pick a choice between " + min + " and " + max + "...");
                 in.next();
             }
-            return -1;
+        } catch (Exception e) {
+            System.out.print("Please pick a valid number...");
+            in.next();
+            in.next();
+        }
+        return -1;
     }
 
     public static int promptAndParseInt(String message) {
@@ -38,7 +38,7 @@ public final class InputValidator {
                 if (input > 0) {
                     return input;
                 } else {
-                    System.out.print("Please enter a non null number");
+                    System.out.print("Please enter a positive non null number");
                     in.next();
                 }
             } catch (Exception e) {
@@ -73,6 +73,63 @@ public final class InputValidator {
 
     }
 
+    public static Double promptAndParseDouble(String message, int min, int max) {
+        do {
+            try {
+                System.out.print(message);
+                Double input = in.nextDouble();
+                if (input >= min && input <= max) {
+                    return input;
+                } else {
+                    System.out.print("Please pick a choice between " + min + " and " + max + "...");
+                    in.next();
+                }
+            } catch (Exception e) {
+                System.out.print("Please pick a valid number...");
+                in.next();
+                in.next();
+            }
+        } while (true);
+    }
+
+    public static Double promptAndParseDouble(String message) {
+        do {
+            try {
+                System.out.print(message);
+                Double input = in.nextDouble();
+                if (input > 0) {
+                    return input;
+                } else {
+                    System.out.print("Please enter a positive non null number");
+                    in.next();
+                }
+            } catch (Exception e) {
+                System.out.print("Please pick a valid number...");
+                in.next();
+                in.next();
+            }
+        } while (true);
+    }
+
+    public static Double promptAndParseNullableDouble(String message) {
+        do {
+            try {
+                System.out.print(message);
+                Double input = in.nextDouble();
+                if (input >= 0) {
+                    return input;
+                } else {
+                    System.out.print("Please enter a positive number");
+                    in.next();
+                }
+            } catch (Exception e) {
+                System.out.print("Please pick a valid number...");
+                in.next();
+                in.next();
+            }
+        } while (true);
+    }
+
     public static String promptAndParseString(String message) {
         do {
             try {
@@ -87,6 +144,7 @@ public final class InputValidator {
             } catch (Exception e) {
                 System.out.print("Please enter a valid string");
                 in.next();
+                in.next();
             }
         } while (true);
     }
@@ -98,6 +156,26 @@ public final class InputValidator {
             return input;
         } while (true);
 
+    }
+
+    public static String promptAndParsePhoneNumber(String message) {
+        do {
+            try {
+                System.out.print(message);
+                String input = in.next().trim();
+
+                if (input.matches("\\+?[0-9]{10,15}")) {
+                    return input;
+                } else {
+                    System.out.println(
+                            "Please enter a valid phone number (10 to 15 digits, optional + at the beginning).");
+                }
+            } catch (Exception e) {
+                System.out.print("An error occurred. Please enter a valid phone number.");
+                in.next();
+                in.next();
+            }
+        } while (true);
     }
 
     public static LocalDate promptAndParseDate(String message) {
@@ -113,6 +191,7 @@ public final class InputValidator {
             } catch (Exception e) {
                 System.out.print(e.getMessage());
                 in.next();
+                in.next();
             }
         } while (true);
     }
@@ -122,7 +201,7 @@ public final class InputValidator {
             try {
                 System.out.print(message);
                 String dateString = in.next();
-                
+
                 if (dateString.isEmpty())
                     return null;
 
@@ -132,6 +211,7 @@ public final class InputValidator {
                 in.next();
             } catch (Exception e) {
                 System.out.print(e.getMessage());
+                in.next();
                 in.next();
             }
         } while (true);

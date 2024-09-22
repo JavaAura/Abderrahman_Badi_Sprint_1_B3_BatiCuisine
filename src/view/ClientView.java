@@ -12,11 +12,30 @@ public class ClientView {
         return InputValidator.promptAndParseString("\033[H\033[2J \n Enter customer name : ");
     }
 
+    public Client addClientUI() {
+        int choice;
+        IO.clear();
+        String name = InputValidator.promptAndParseString("Enter the client's full name : ");
+        String address = InputValidator.promptAndParseString("Enter the client's address : ");
+        String phoneNumber = InputValidator.promptAndParsePhoneNumber("Enter the client's phone number : ");
+        Boolean isProfessional;
+
+        do {
+            System.out.println("Client type : ");
+            System.out.println("\t 1 - Professional \t 2 - Commercial");
+            choice = InputValidator.promptAndParseInt("Choice :", 1, 2);
+        } while (choice != 1 && choice != 2);
+
+        isProfessional = (choice == 1) ? true : false;
+
+        return new Client(name, address, phoneNumber, isProfessional);
+    }
+
     public Client listClients(List<Client> clients) {
         Client selectedClient = null;
 
         if (clients.size() == 0) {
-            System.out.println("\033[H\033[2J");
+            IO.clear();
             System.out.println(
                     "+-------------------------------------------------------------------------------------------------------------+");
             System.out.println(
@@ -29,7 +48,7 @@ public class ClientView {
         }
 
         do {
-            System.out.println("\033[H\033[2J");
+            IO.clear();
             System.out.println(
                     "+-------------------------------------------------------------------------------------------------------------+");
             System.out.println(
@@ -37,7 +56,7 @@ public class ClientView {
             System.out.println(
                     "+-------------------------------------------------------------------------------------------------------------+");
             for (Client client : clients) {
-                System.out.printf("| %-3d | %-22s | %-28s | %-24s |  %-15s  |\n",
+                System.out.printf("|  %-3d | %-22s | %-28s | %-24s |  %-15s  |\n",
                         client.getId(),
                         client.getName(),
                         client.getAddress(),
@@ -48,7 +67,7 @@ public class ClientView {
             }
 
             System.out.print(
-                    "0 - Return to User Menu \nPlease pick a user by entering their ID \nPick your choice : ");
+                    "0 - Return to User Menu \nPlease pick a client by entering their ID \nClient ID : ");
             try {
                 int selectedId = IO.getScanner().nextInt();
                 if (selectedId == 0)

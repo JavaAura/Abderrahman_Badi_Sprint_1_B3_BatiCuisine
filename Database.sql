@@ -30,7 +30,9 @@ CREATE TABLE project
 	project_name VARCHAR(255) NOT NULL,
 	profit_margin DOUBLE PRECISION NULL,
 	total_cost DOUBLE PRECISION NULL,
-  project_status project_status,  
+  project_status project_status,
+  surface DOUBLE PRECISION NULL,
+  vat_rate DOUBLE PRECISION NULL,  
   client_id BIGINT NOT NULL,
   quote_id BIGINT NOT NULL,
   CONSTRAINT fk_quote FOREIGN KEY (quote_id) REFERENCES quote(id),
@@ -42,7 +44,6 @@ CREATE TABLE component
   id SERIAL PRIMARY KEY,
   component_name VARCHAR(255) NOT NULL,
   component_type component_type,
-  vat_rate DOUBLE PRECISION NULL,
   project_id BIGINT NOT NULL,
   CONSTRAINT fk_project FOREIGN KEY (project_id) REFERENCES project(id)
 );

@@ -12,7 +12,7 @@ public interface ProjectRepository {
 
     public List<Project> getAll(ProjectStatus projectStatus);
 
-    public Boolean addProject(Project project);
+    public Project addProject(Project project);
 
     public Boolean updateStatus(Project project);
 

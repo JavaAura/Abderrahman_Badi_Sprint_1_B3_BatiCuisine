@@ -3,12 +3,24 @@ package view;
 import java.util.List;
 
 import model.Project;
+import util.IO;
 import util.InputValidator;
 
 public class ProjectView {
 
-        public int promptClient(){
-                System.out.println("\033[H\033[2J"); // Clear screen
+        public Project addProjectUI() {
+
+                IO.clear();
+                String name = InputValidator.promptAndParseString("Project Name : ");
+                Double surface = InputValidator.promptAndParseDouble("Project Surface (m²) : ");
+                Double profitMargin = InputValidator.promptAndParseDouble("Profit Margin : ");
+                Double vatRate = InputValidator.promptAndParseNullableDouble("VAT Rate ( 0 if not applicale ) : ");
+
+                return new Project(name, surface, vatRate, profitMargin);
+        }
+
+        public int clientMenu() {
+                IO.clear(); // Clear screen
                 System.out.println("Do you want to search for an existing customer or add a new one ?");
                 System.out.println("\t\t+---------------------------------------------+");
                 System.out.println("\t\t|                                             |");

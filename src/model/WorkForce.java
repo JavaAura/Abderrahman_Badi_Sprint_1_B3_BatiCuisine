@@ -10,17 +10,17 @@ public class WorkForce extends Component {
     public WorkForce() {
     }
 
-    public WorkForce(String name, ComponentType componentType, double vatRate, double hourlyRate, double workHours,
+    public WorkForce(String name, ComponentType componentType, double hourlyRate, double workHours,
             double workerProductivity) {
-        super(name, componentType, vatRate);
+        super(name, componentType);
         this.hourlyRate = hourlyRate;
         this.workHours = workHours;
         this.workerProductivity = workerProductivity;
     }
 
-    public WorkForce(Long id, String name, ComponentType componentType, double vatRate, double hourlyRate,
+    public WorkForce(Long id, String name, ComponentType componentType, double hourlyRate,
             double workHours, double workerProductivity) {
-        super(id, name, componentType, vatRate);
+        super(id, name, componentType);
         this.hourlyRate = hourlyRate;
         this.workHours = workHours;
         this.workerProductivity = workerProductivity;

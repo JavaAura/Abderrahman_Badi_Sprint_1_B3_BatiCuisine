@@ -11,19 +11,19 @@ public class Material extends Component {
     public Material() {
     }
 
-    public Material(String name, ComponentType componentType, double vatRate, double unitCost, double quantity,
+    public Material(String name, ComponentType componentType, double unitCost, double quantity,
             double transportCost, double qualityCoefficient) {
-        super(name, componentType, vatRate);
+        super(name, componentType);
         this.unitCost = unitCost;
         this.quantity = quantity;
         this.transportCost = transportCost;
         this.qualityCoefficient = qualityCoefficient;
     }
 
-    public Material(Long id, String name, ComponentType componentType, double vatRate, double unitCost, double quantity,
+    public Material(Long id, String name, ComponentType componentType, double unitCost, double quantity,
             double transportCost,
             double qualityCoefficient) {
-        super(id, name, componentType, vatRate);
+        super(id, name, componentType);
         this.unitCost = unitCost;
         this.quantity = quantity;
         this.transportCost = transportCost;

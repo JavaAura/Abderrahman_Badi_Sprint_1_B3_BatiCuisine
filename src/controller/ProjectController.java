@@ -2,7 +2,6 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import model.Client;
 import model.Material;
@@ -14,16 +13,21 @@ import service.MaterialService;
 import service.ProjectService;
 import service.QuoteService;
 import service.WorkForceService;
+
 import view.ClientView;
+import view.ComponentView;
 import view.ProjectView;
 import view.interfaces.View;
 import view.menu.ProjectMenu;
+
+import util.IO;
 
 public class ProjectController {
 
     private View projectMenu = new ProjectMenu();
     private ProjectView projectView = new ProjectView();
     private ClientView clientView = new ClientView();
+    private ComponentView componentView = new ComponentView();
 
     private ProjectService projectService = new ProjectService();
     private QuoteService quoteService = new QuoteService();
@@ -36,28 +40,31 @@ public class ProjectController {
     public void startProjectMenu() {
         isRunning = true;
         while (isRunning) {
-            System.out.println("\033[H\033[2J");
+            IO.clear();
             int choice = projectMenu.display();
             handleChoice(choice);
         }
     }
 
-    public void startClientMenu() {
+    public Client startClientMenu() {
+        Client client = null;
         isRunning = true;
-        while (isRunning) {
-            System.out.println("\033[H\033[2J");
-            int choice = projectView.promptClient();
-            handleClientMenuChoice(choice);
-        }
+        do {
+            IO.clear();
+            int choice = projectView.clientMenu();
+            client = handleClientMenuChoice(choice);
+        } while (isRunning && client == null);
+
+        return client;
     }
 
     public void addProjectUI() {
-        Quote quote = new Quote();
-        Project project = new Project();
-        List<Material> materials = new ArrayList<Material>();
-        List<WorkForce> workForces = new ArrayList<WorkForce>();
+    
+        Client selectedClient = startClientMenu();
+        Project project = projectView.addProjectUI();
+        List<Material> materials = componentView.addMaterialUI();
+        List<WorkForce> workForces = componentView.addWorkForceUI();
 
-        startClientMenu();
     }
 
     private void handleChoice(int choice) {
@@ -89,16 +96,14 @@ public class ProjectController {
             case 1:
                 String input = clientView.searchClientUI();
                 List<Client> clients = clientService.findClientByName(input);
-
-                Client selectedClient = clientView.listClients(clients);
-
-                if (selectedClient == null) {
-
-                }
-                client = selectedClient;
+                client = clientView.listClients(clients);
                 break;
             case 2:
-
+                client = clientService.addClient(clientView.addClientUI());
+                if (client != null) {
+                    System.out.println("Client added successfuly!");
+                }
+                IO.sysPause();
                 break;
             case 3:
                 isRunning = false;

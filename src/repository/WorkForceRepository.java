@@ -1,10 +1,10 @@
 package repository;
 
-import java.sql.SQLException;
+import java.util.List;
 
 import model.WorkForce;
 
 public interface  WorkForceRepository {
-        Boolean addWorkForce(WorkForce workForce) throws SQLException;
+        Boolean addWorkForce(List<WorkForce> workForce, long project_id);
 
 }

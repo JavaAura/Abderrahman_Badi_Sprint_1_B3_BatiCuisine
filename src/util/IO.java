@@ -22,4 +22,8 @@ public class IO {
         System.out.println("Press Enter to continue...");
         scanner.next();
     }
+
+    public static void clear() {
+        IO.clear();
+    }
 }
