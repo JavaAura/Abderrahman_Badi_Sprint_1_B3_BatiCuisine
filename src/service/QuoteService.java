@@ -20,75 +20,43 @@ public class QuoteService implements QuoteRepository {
 
     @Override
     public Boolean addQuote(Quote quote) {
-        PreparedStatement stmt = null;
-
-        try {
-            stmt = con.prepareStatement(SQL_INSERT);
+        try (PreparedStatement stmt = con.prepareStatement(SQL_INSERT)) {
             stmt.setDouble(1, quote.getEstimatedAmount());
             stmt.setDate(2, Date.valueOf(quote.getIssueDate()));
 
             int n = stmt.executeUpdate();
 
-            return n == 1;
+            if (n == 1) {
+                LoggerUtils.logger.info("Quote added successfully");
+                return true;
+            }
 
         } catch (SQLException e) {
             LoggerUtils.logger.warning(e.getMessage());
-        } finally {
-
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    LoggerUtils.logger.warning(e.getMessage());
-                }
-            }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    LoggerUtils.logger.warning(e.getMessage());
-                }
-            }
-
+            LoggerUtils.logStackTrace(e);
         }
-
         return false;
     }
 
     @Override
     public Boolean updateStatus(Quote quote, String[] params) {
-        PreparedStatement stmt = null;
-
-        try {
-            stmt = con.prepareStatement(SQL_UPDATE_STATUS);
+        try (PreparedStatement stmt = con.prepareStatement(SQL_UPDATE_STATUS)) {
             stmt.setDouble(1, Double.parseDouble(params[0]));
             stmt.setDate(2, Date.valueOf(LocalDate.parse(params[1])));
             stmt.setLong(3, quote.getId());
 
             int n = stmt.executeUpdate();
 
-            return n == 1;
+            if (n == 1) {
+                LoggerUtils.logger.info("Quote updated successfully");
+                return true;
+            }
         } catch (SQLException e) {
             LoggerUtils.logger.warning(e.getMessage());
+            LoggerUtils.logStackTrace(e);
         } catch (NumberFormatException e) {
             LoggerUtils.logger.warning(e.getMessage());
-        } finally {
-
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    LoggerUtils.logger.warning(e.getMessage());
-                }
-            }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    LoggerUtils.logger.warning(e.getMessage());
-                }
-            }
-
+            LoggerUtils.logStackTrace(e);
         }
 
         return false;

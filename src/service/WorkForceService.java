@@ -16,16 +16,8 @@ public class WorkForceService implements WorkForceRepository {
     private static Connection con = DatabaseConnection.getConnection();
 
     @Override
-    public Boolean addWorkForce(WorkForce workForce) throws SQLException {
-        if (con == null) {
-            throw new SQLException("Database connection is not initialized.");
-        }
-
-        PreparedStatement stmt = null;
-
-        try {
-
-            stmt = con.prepareStatement(SQL_INSERT);
+    public Boolean addWorkForce(WorkForce workForce) {
+        try (PreparedStatement stmt = con.prepareStatement(SQL_INSERT)) {
             stmt.setString(1, workForce.getName());
             stmt.setString(2, "WORKFORCE");
             stmt.setDouble(3, workForce.getVatRate());
@@ -34,27 +26,18 @@ public class WorkForceService implements WorkForceRepository {
             stmt.setDouble(6, workForce.getWorkerProductivity());
 
             int n = stmt.executeUpdate();
-            return n == 1;
+            if (n == 1) {
+                LoggerUtils.logger.info("Component of type \"Work Force\" added successfully: " + workForce.getName());
+                return true;
+            }
 
         } catch (SQLException e) {
             LoggerUtils.logger.warning(e.getMessage());
-            return false;
-        } finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    LoggerUtils.logger.warning(e.getMessage());
-                }
-            }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    LoggerUtils.logger.warning(e.getMessage());
-                }
-            }
+            LoggerUtils.logStackTrace(e);
         }
+
+        return false;
+
     }
 
 }

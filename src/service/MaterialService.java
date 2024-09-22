@@ -17,11 +17,7 @@ public class MaterialService implements MaterialRepository {
 
     @Override
     public Boolean addMaterial(Material material) {
-        PreparedStatement stmt = null;
-
-        try {
-
-            stmt = con.prepareStatement(SQL_INSERT);
+        try (PreparedStatement stmt = con.prepareStatement(SQL_INSERT)) {
             stmt.setString(1, material.getName());
             stmt.setString(2, "MATERIAL");
             stmt.setDouble(3, material.getVatRate());
@@ -31,27 +27,17 @@ public class MaterialService implements MaterialRepository {
             stmt.setDouble(7, material.getUnitCost());
 
             int n = stmt.executeUpdate();
-            return n == 1;
-
+            if (n == 1) {
+                LoggerUtils.logger.info("Component of type \"Material\" added successfully: " + material.getName());
+                return true;
+            }
         } catch (SQLException e) {
             LoggerUtils.logger.warning(e.getMessage());
-            return false;
-        } finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    LoggerUtils.logger.warning(e.getMessage());
-                }
-            }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    LoggerUtils.logger.warning(e.getMessage());
-                }
-            }
+            LoggerUtils.logStackTrace(e);
         }
+
+        return false;
+
     }
 
 }

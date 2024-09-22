@@ -20,10 +20,7 @@ public class ClientService implements ClientRepository {
 
     @Override
     public Boolean addClient(Client client) {
-        PreparedStatement stmt = null;
-
-        try {
-            stmt = con.prepareStatement(SQL_INSERT);
+        try (PreparedStatement stmt = con.prepareStatement(SQL_INSERT)) {
             stmt.setString(1, client.getName());
             stmt.setString(2, client.getAddress());
             stmt.setString(3, client.getPhoneNumber());
@@ -31,29 +28,15 @@ public class ClientService implements ClientRepository {
 
             int n = stmt.executeUpdate();
 
-            return n == 1;
+            if (n == 1) {
+                LoggerUtils.logger.info("Client added successfully: " + client.getName());
+                return true;
+            }
 
         } catch (SQLException e) {
             LoggerUtils.logger.warning(e.getMessage());
-        } finally {
-
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    LoggerUtils.logger.warning(e.getMessage());
-                }
-            }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    LoggerUtils.logger.warning(e.getMessage());
-                }
-            }
-
-        }
-
+            LoggerUtils.logStackTrace(e);
+        } 
         return false;
 
     }
@@ -61,47 +44,23 @@ public class ClientService implements ClientRepository {
     @Override
     public Optional<Client> findClientByName(String nom){
         Client client = new Client();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
 
-        try {
-            stmt = con.prepareStatement(SQL_FIND_BY_NAME);
+        try (PreparedStatement stmt = con.prepareStatement(SQL_FIND_BY_NAME)) {
             stmt.setString(1, "%" + nom + "%");
-            rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 client.setId(rs.getLong("id"));
                 client.setName(rs.getString("name"));
                 client.setAddress(rs.getString("address"));
                 client.setPhoneNumber(rs.getString("phone_number"));
                 client.setIsProfessional(rs.getBoolean("is_professional"));
-
             }
 
         } catch (SQLException e) {
             LoggerUtils.logger.warning(e.getMessage());
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    LoggerUtils.logger.warning(e.getMessage());
-                }
-            }
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    LoggerUtils.logger.warning(e.getMessage());
-                }
-            }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    LoggerUtils.logger.warning(e.getMessage());
-                }
-            }
-        }
+            LoggerUtils.logStackTrace(e);
+        } 
+
         return Optional.ofNullable(client);
     }
 
