@@ -26,7 +26,7 @@ public class ProjectService implements ProjectRepository {
     @Override
     public Boolean addProject(Project project) {
         try (Connection con = DatabaseConnection.getConnection();
-                PreparedStatement stmt = con.prepareStatement(SQL_INSERT)) {
+                PreparedStatement stmt = con.prepareStatement(SQL_INSERT);) {
             stmt.setString(1, project.getProjectName());
             stmt.setDouble(2, project.getProfitMargin());
             stmt.setDouble(3, project.getTotalCost());

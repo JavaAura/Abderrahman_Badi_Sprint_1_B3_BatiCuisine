@@ -19,7 +19,7 @@ public class ClientService implements ClientRepository {
     @Override
     public Boolean addClient(Client client) {
         try (Connection con = DatabaseConnection.getConnection();
-                PreparedStatement stmt = con.prepareStatement(SQL_INSERT)) {
+                PreparedStatement stmt = con.prepareStatement(SQL_INSERT);) {
             stmt.setString(1, client.getName());
             stmt.setString(2, client.getAddress());
             stmt.setString(3, client.getPhoneNumber());
@@ -45,7 +45,7 @@ public class ClientService implements ClientRepository {
         Client client = new Client();
 
         try (Connection con = DatabaseConnection.getConnection();
-                PreparedStatement stmt = con.prepareStatement(SQL_FIND_BY_NAME)) {
+                PreparedStatement stmt = con.prepareStatement(SQL_FIND_BY_NAME);) {
             stmt.setString(1, "%" + nom + "%");
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {

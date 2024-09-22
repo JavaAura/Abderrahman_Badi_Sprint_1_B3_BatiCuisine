@@ -19,7 +19,7 @@ public class QuoteService implements QuoteRepository {
     @Override
     public Boolean addQuote(Quote quote) {
         try (Connection con = DatabaseConnection.getConnection();
-                PreparedStatement stmt = con.prepareStatement(SQL_INSERT)) {
+                PreparedStatement stmt = con.prepareStatement(SQL_INSERT);) {
             stmt.setDouble(1, quote.getEstimatedAmount());
             stmt.setDate(2, Date.valueOf(quote.getIssueDate()));
 
@@ -40,7 +40,7 @@ public class QuoteService implements QuoteRepository {
     @Override
     public Boolean updateStatus(Quote quote, String[] params) {
         try (Connection con = DatabaseConnection.getConnection();
-                PreparedStatement stmt = con.prepareStatement(SQL_UPDATE_STATUS)) {
+                PreparedStatement stmt = con.prepareStatement(SQL_UPDATE_STATUS);) {
             stmt.setDouble(1, Double.parseDouble(params[0]));
             stmt.setDate(2, Date.valueOf(LocalDate.parse(params[1])));
             stmt.setLong(3, quote.getId());

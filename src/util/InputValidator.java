@@ -13,7 +13,6 @@ public final class InputValidator {
     }
 
     public static int promptAndParseInt(String message, int min, int max) {
-        do {
             try {
                 System.out.print(message);
                 int input = in.nextInt();
@@ -26,8 +25,9 @@ public final class InputValidator {
             } catch (Exception e) {
                 System.out.print("Please pick a valid number...");
                 in.next();
+                in.next();
             }
-        } while (true);
+            return -1;
     }
 
     public static int promptAndParseInt(String message) {

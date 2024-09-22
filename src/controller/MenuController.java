@@ -19,8 +19,7 @@ public class MenuController {
     private void handleChoice(int choice) {
         switch (choice) {
             case 1:
-                System.out.println("Add project instructions");
-                mainMenu.back();
+                projectController.addProjectUI();
                 break;
             case 2:
                 projectController.startProjectMenu();

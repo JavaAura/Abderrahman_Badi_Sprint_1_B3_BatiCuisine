@@ -16,7 +16,7 @@ public class WorkForceService implements WorkForceRepository {
     @Override
     public Boolean addWorkForce(WorkForce workForce) {
         try (Connection con = DatabaseConnection.getConnection();
-                PreparedStatement stmt = con.prepareStatement(SQL_INSERT)) {
+                PreparedStatement stmt = con.prepareStatement(SQL_INSERT);) {
             stmt.setString(1, workForce.getName());
             stmt.setString(2, "WORKFORCE");
             stmt.setDouble(3, workForce.getVatRate());

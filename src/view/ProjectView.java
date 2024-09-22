@@ -3,8 +3,23 @@ package view;
 import java.util.List;
 
 import model.Project;
+import util.InputValidator;
 
 public class ProjectView {
+
+        public int promptClient(){
+                System.out.println("\033[H\033[2J"); // Clear screen
+                System.out.println("Do you want to search for an existing customer or add a new one ?");
+                System.out.println("\t\t+---------------------------------------------+");
+                System.out.println("\t\t|                                             |");
+                System.out.println("\t\t|     1- Search for an existing client        |");
+                System.out.println("\t\t|     2- Add a new client                     |");
+                System.out.println("\t\t|     3- Back to Main Menu                    |");
+                System.out.println("\t\t|                                             |");
+                System.out.println("\t\t+---------------------------------------------+");
+
+                return InputValidator.promptAndParseInt("Choice : ", 1, 3);
+        }
 
         public void listProjects(List<Project> projects) {
                 if (projects.size() == 0) {
