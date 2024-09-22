@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.Client;
 import util.DatabaseConnection;
@@ -41,19 +42,22 @@ public class ClientService implements ClientRepository {
     }
 
     @Override
-    public Optional<Client> findClientByName(String nom) {
-        Client client = new Client();
+    public List<Client> findClientByName(String name) {
+        List<Client> clients = new ArrayList<>();
 
         try (Connection con = DatabaseConnection.getConnection();
                 PreparedStatement stmt = con.prepareStatement(SQL_FIND_BY_NAME);) {
-            stmt.setString(1, "%" + nom + "%");
+            stmt.setString(1, "%" + name + "%");
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    client.setId(rs.getLong("id"));
-                    client.setName(rs.getString("name"));
-                    client.setAddress(rs.getString("address"));
-                    client.setPhoneNumber(rs.getString("phone_number"));
-                    client.setIsProfessional(rs.getBoolean("is_professional"));
+                    long id = rs.getLong("id");
+                    String clientName = rs.getString("name");
+                    String address = rs.getString("address");
+                    String phone_number = rs.getString("phone_number");
+                    Boolean isProfessional = rs.getBoolean("is_professional");
+
+                    Client client = new Client(id, clientName, address, phone_number, isProfessional);
+                    clients.add(client);
                 }
             }
 
@@ -62,7 +66,7 @@ public class ClientService implements ClientRepository {
             LoggerUtils.logStackTrace(e);
         }
 
-        return Optional.ofNullable(client);
+        return clients;
     }
 
 }

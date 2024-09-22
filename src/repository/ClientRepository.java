@@ -1,12 +1,12 @@
 package repository;
 
-import java.util.Optional;
+import java.util.List;
 
 import model.Client;  
 
 public interface ClientRepository {
     
     public Boolean addClient(Client client);
-    public Optional<Client> findClientByName(String nom);
+    public List<Client> findClientByName(String nom);
     
 }

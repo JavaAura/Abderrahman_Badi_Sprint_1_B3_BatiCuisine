@@ -15,4 +15,11 @@ public class IO {
         }
         return scanner;
     }
+
+    public static void sysPause() {
+        if (scanner == null)
+            scanner = getScanner();
+        System.out.println("Press Enter to continue...");
+        scanner.next();
+    }
 }
