@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import model.Quote;
 import repository.QuoteRepository;
 import util.DatabaseConnection;
+import util.LoggerUtils;
 
 public class QuoteService implements QuoteRepository {
 
@@ -31,21 +32,21 @@ public class QuoteService implements QuoteRepository {
             return n == 1;
 
         } catch (SQLException e) {
-            e.printStackTrace(); //Need to log here
+            LoggerUtils.logger.warning(e.getMessage());
         } finally {
 
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (SQLException e) {
-                    e.printStackTrace(); //Need to log here
+                    LoggerUtils.logger.warning(e.getMessage());
                 }
             }
             if (con != null) {
                 try {
                     con.close();
                 } catch (SQLException e) {
-                    e.printStackTrace(); //Need to log here
+                    LoggerUtils.logger.warning(e.getMessage());
                 }
             }
 
@@ -68,9 +69,9 @@ public class QuoteService implements QuoteRepository {
 
             return n == 1;
         } catch (SQLException e) {
-            e.printStackTrace(); //Need to log here
+            LoggerUtils.logger.warning(e.getMessage());
         } catch (NumberFormatException e) {
-            e.printStackTrace(); //Need to log here
+            LoggerUtils.logger.warning(e.getMessage());
         } finally {
 
             if (stmt != null) {

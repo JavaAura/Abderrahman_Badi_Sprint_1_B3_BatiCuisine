@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 
 import model.Material;
 import util.DatabaseConnection;
+import util.LoggerUtils;
 import repository.MaterialRepository;
 
 public class MaterialService implements MaterialRepository {
@@ -33,21 +34,21 @@ public class MaterialService implements MaterialRepository {
             return n == 1;
 
         } catch (SQLException e) {
-            e.printStackTrace(); //Need to log here
+            LoggerUtils.logger.warning(e.getMessage());
             return false;
         } finally {
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (SQLException e) {
-                    e.printStackTrace(); //Need to log here
+                    LoggerUtils.logger.warning(e.getMessage());
                 }
             }
             if (con != null) {
                 try {
                     con.close();
                 } catch (SQLException e) {
-                    e.printStackTrace(); //Need to log here
+                    LoggerUtils.logger.warning(e.getMessage());
                 }
             }
         }

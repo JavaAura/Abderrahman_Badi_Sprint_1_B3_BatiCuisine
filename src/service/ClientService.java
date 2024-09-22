@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import model.Client;
 import util.DatabaseConnection;
+import util.LoggerUtils;
 import repository.ClientRepository;
 
 public class ClientService implements ClientRepository {
@@ -33,21 +34,21 @@ public class ClientService implements ClientRepository {
             return n == 1;
 
         } catch (SQLException e) {
-            e.printStackTrace(); //Need to log here
+            LoggerUtils.logger.warning(e.getMessage());
         } finally {
 
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (SQLException e) {
-                    e.printStackTrace(); //Need to log here
+                    LoggerUtils.logger.warning(e.getMessage());
                 }
             }
             if (con != null) {
                 try {
                     con.close();
                 } catch (SQLException e) {
-                    e.printStackTrace(); //Need to log here
+                    LoggerUtils.logger.warning(e.getMessage());
                 }
             }
 
@@ -77,27 +78,27 @@ public class ClientService implements ClientRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); //Need to log here
+            LoggerUtils.logger.warning(e.getMessage());
         } finally {
             if (rs != null) {
                 try {
                     rs.close();
                 } catch (SQLException e) {
-                    e.printStackTrace(); //Need to log here
+                    LoggerUtils.logger.warning(e.getMessage());
                 }
             }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (SQLException e) {
-                    e.printStackTrace(); //Need to log here
+                    LoggerUtils.logger.warning(e.getMessage());
                 }
             }
             if (con != null) {
                 try {
                     con.close();
                 } catch (SQLException e) {
-                    e.printStackTrace(); //Need to log here
+                    LoggerUtils.logger.warning(e.getMessage());
                 }
             }
         }
