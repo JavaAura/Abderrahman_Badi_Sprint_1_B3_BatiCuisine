@@ -17,8 +17,6 @@ public class ProjectService implements ProjectRepository {
     private static final String SQL_LIST = "SELECT * FROM public.project JOIN public.client ON project.user_id = client.id JOIN public.quote ON project.quote_id = quote.id ORDER BY project.id ASC";
     private static final String SQL_INSERT = "INSERT INTO public.project(project_name, profit_margin, total_cost, surface, user_id, quote_id) VALUES (?, ?, ?, ?, ?, ?)";
 
-    private static Connection con = DatabaseConnection.getConnection();
-
     @Override
     public Optional<Project> get(long id) {
         // TODO Auto-generated method stub
@@ -27,7 +25,8 @@ public class ProjectService implements ProjectRepository {
 
     @Override
     public Boolean addProject(Project project) {
-        try (PreparedStatement stmt = con.prepareStatement(SQL_INSERT)) {
+        try (Connection con = DatabaseConnection.getConnection();
+                PreparedStatement stmt = con.prepareStatement(SQL_INSERT)) {
             stmt.setString(1, project.getProjectName());
             stmt.setDouble(2, project.getProfitMargin());
             stmt.setDouble(3, project.getTotalCost());

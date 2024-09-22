@@ -13,11 +13,10 @@ public class MaterialService implements MaterialRepository {
 
     private static final String SQL_INSERT = "INSERT INTO  public.material (name , component_type , vat_rate, transport_cost, quality_coefficient, quantity, unit_cost) VALUES(? , ? , ? , ? , ? , ?, ?)";
 
-    private static Connection con = DatabaseConnection.getConnection();
-
     @Override
     public Boolean addMaterial(Material material) {
-        try (PreparedStatement stmt = con.prepareStatement(SQL_INSERT)) {
+        try (Connection con = DatabaseConnection.getConnection();
+                PreparedStatement stmt = con.prepareStatement(SQL_INSERT)) {
             stmt.setString(1, material.getName());
             stmt.setString(2, "MATERIAL");
             stmt.setDouble(3, material.getVatRate());

@@ -13,11 +13,10 @@ public class WorkForceService implements WorkForceRepository {
 
     private static final String SQL_INSERT = "INSERT INTO  public.work_force (name , component_type , vat_rate, hourly_rate, work_hours, worker_productivity) VALUES(? , ? , ? , ? , ? , ?)";
 
-    private static Connection con = DatabaseConnection.getConnection();
-
     @Override
     public Boolean addWorkForce(WorkForce workForce) {
-        try (PreparedStatement stmt = con.prepareStatement(SQL_INSERT)) {
+        try (Connection con = DatabaseConnection.getConnection();
+                PreparedStatement stmt = con.prepareStatement(SQL_INSERT)) {
             stmt.setString(1, workForce.getName());
             stmt.setString(2, "WORKFORCE");
             stmt.setDouble(3, workForce.getVatRate());
