@@ -27,10 +27,7 @@ public class ProjectService implements ProjectRepository {
 
     @Override
     public Boolean addProject(Project project) {
-        PreparedStatement stmt = null;
-
-        try {
-            stmt = con.prepareStatement(SQL_INSERT);
+        try (PreparedStatement stmt = con.prepareStatement(SQL_INSERT)) {
             stmt.setString(1, project.getProjectName());
             stmt.setDouble(2, project.getProfitMargin());
             stmt.setDouble(3, project.getTotalCost());
@@ -39,33 +36,17 @@ public class ProjectService implements ProjectRepository {
             stmt.setLong(6, project.getQuote().getId());
 
             int n = stmt.executeUpdate();
-
-            return n == 1;
-
+            if (n == 1) {
+                LoggerUtils.logger.info("Project added successfully: " + project.getProjectName());
+                return true;
+            }
         } catch (SQLException e) {
-            LoggerUtils.logger.warning(e.getMessage());
-        } finally {
-
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    LoggerUtils.logger.warning(e.getMessage());
-                }
-            }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    LoggerUtils.logger.warning(e.getMessage());
-                }
-            }
-
+            LoggerUtils.logger.warning("Error adding project: " + e.getMessage());
+            LoggerUtils.logStackTrace(e);
         }
-
         return false;
-
     }
+
     @Override
     public List<Project> getAll(ProjectStatus projectStatus) {
 

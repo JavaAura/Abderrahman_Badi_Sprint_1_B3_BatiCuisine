@@ -78,14 +78,14 @@ public class QuoteService implements QuoteRepository {
                 try {
                     stmt.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    LoggerUtils.logger.warning(e.getMessage());
                 }
             }
             if (con != null) {
                 try {
                     con.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    LoggerUtils.logger.warning(e.getMessage());
                 }
             }
 
