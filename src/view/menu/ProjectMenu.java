@@ -22,8 +22,8 @@ public class ProjectMenu implements Menu {
         System.out.println("\t\t+---------------------------------------------+");
         System.out.println("\t\t|                                             |");
         System.out.println("\t\t|     1- List of Ongoing Projects             |");
-        System.out.println("\t\t|     2- List of Finished Projects            |");
-        System.out.println("\t\t|     3- List of Projects Awaiting Validation |");
+        System.out.println("\t\t|     2- List of Projects Awaiting Validation |");
+        System.out.println("\t\t|     3- List of Finished Projects            |");
         System.out.println("\t\t|     4- Back                                 |");
         System.out.println("\t\t|                                             |");
         System.out.println("\t\t+---------------------------------------------+");

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import enums.ProjectStatus;
 import model.Client;
 import model.Component;
 import model.Material;
@@ -103,18 +104,26 @@ public class ProjectController {
     }
 
     private void handleChoice(int choice) {
+        List<Project> projects = new ArrayList<>();
+        Project selectedProject;
         switch (choice) {
             case 1:
-                projectService.getAll(null);
-                projectMenu.back();
+                projects = projectService.getAll(ProjectStatus.ONGOING);
+                selectedProject = projectView.listProjects(projects);
+                if (selectedProject != null)
+                    projectView.subProjectMenu(selectedProject);
                 break;
             case 2:
-                System.out.println("List of finished projects");
-                projectMenu.back();
+                projects = projectService.getAll(null);
+                selectedProject = projectView.listProjects(projects);
+                if (selectedProject != null)
+                    projectView.subProjectMenu(selectedProject);
                 break;
             case 3:
-                System.out.println("List no validated projects");
-                projectMenu.back();
+                projects = projectService.getAll(ProjectStatus.FINISHED);
+                selectedProject = projectView.listProjects(projects);
+                if (selectedProject != null)
+                    projectView.subProjectMenu(selectedProject);
                 break;
             case 4:
                 isRunning = false;

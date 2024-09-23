@@ -28,7 +28,6 @@ public class MenuController {
                 break;
             case 3:
                 quoteController.startQuoteMenu();
-                mainMenu.back();
                 break;
             case 4:
                 isRunning = false;

@@ -11,6 +11,7 @@ import model.WorkForce;
 import service.MaterialService;
 import service.ProjectService;
 import service.WorkForceService;
+import util.IO;
 import view.ProjectView;
 
 public class QuoteController {
@@ -26,6 +27,9 @@ public class QuoteController {
         List<Project> projects = projectService.getAll(ProjectStatus.ONGOING);
         Project selectedProject = projectView.listProjects(projects);
 
+        if (selectedProject == null)
+            return;
+
         List<Material> materials = materialService.getAll(selectedProject.getId());
         List<WorkForce> workForces = workForceService.getAll(selectedProject.getId());
 
@@ -35,5 +39,6 @@ public class QuoteController {
         selectedProject.setComponents(components);
 
         projectView.showProjectSummary(selectedProject, selectedProject.getClient(), components);
+        IO.sysPause();
     }
 }

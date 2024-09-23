@@ -29,7 +29,7 @@ public class QuoteService implements QuoteRepository {
             if (n > 0) {
                 try (ResultSet rs = stmt.getGeneratedKeys()) {
                     if (rs.next()) {
-                        long generatedId = rs.getLong(1); 
+                        long generatedId = rs.getLong(1);
                         quote.setId(generatedId);
                         LoggerUtils.logger.info("Quote added successfully with ID: " + generatedId);
                         return quote;
@@ -47,11 +47,11 @@ public class QuoteService implements QuoteRepository {
     }
 
     @Override
-    public Boolean updateStatus(Quote quote, String[] params) {
+    public Boolean updateStatus(Quote quote, Boolean is_accepted) {
         try (Connection con = DatabaseConnection.getConnection();
                 PreparedStatement stmt = con.prepareStatement(SQL_UPDATE_STATUS);) {
-            stmt.setDouble(1, Double.parseDouble(params[0]));
-            stmt.setDate(2, Date.valueOf(LocalDate.parse(params[1])));
+            stmt.setDate(1, Date.valueOf(LocalDate.now()));
+            stmt.setBoolean(2, is_accepted);
             stmt.setLong(3, quote.getId());
 
             int n = stmt.executeUpdate();
@@ -59,6 +59,8 @@ public class QuoteService implements QuoteRepository {
             if (n == 1) {
                 LoggerUtils.logger.info("Quote updated successfully");
                 return true;
+            } else {
+                LoggerUtils.logger.warning("Failed to update quote status");
             }
         } catch (SQLException e) {
             LoggerUtils.logger.warning(e.getMessage());

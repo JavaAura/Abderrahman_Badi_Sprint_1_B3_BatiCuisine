@@ -13,6 +13,6 @@ public interface ProjectRepository {
 
     public Project addProject(Project project);
 
-    public Boolean updateStatus(Project project);
+    public Boolean updateStatus(Project project, ProjectStatus status);
 
 }

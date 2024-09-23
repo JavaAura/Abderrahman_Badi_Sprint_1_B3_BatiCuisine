@@ -1,18 +1,30 @@
 package view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import enums.ComponentType;
+import enums.ProjectStatus;
 import model.Client;
 import model.Component;
 import model.Project;
 import model.Material;
 import model.WorkForce;
-
+import service.MaterialService;
+import service.ProjectService;
+import service.QuoteService;
+import service.WorkForceService;
 import util.IO;
 import util.InputValidator;
 
 public class ProjectView {
+
+	private MaterialService materialService = new MaterialService();
+	private WorkForceService workForceService = new WorkForceService();
+	private ProjectService projectService = new ProjectService();
+	private QuoteService quoteService = new QuoteService();
+	private Boolean isRunning = true;
+
 	public Project addProjectUI() {
 
 		IO.clear();
@@ -44,6 +56,7 @@ public class ProjectView {
 		Project selectedProject = null;
 
 		if (projects.size() == 0) {
+			IO.clear();
 			System.out.println(
 					"+-------------------------------------------------------------------------------------------------------------+");
 			System.out.println(
@@ -75,7 +88,7 @@ public class ProjectView {
 						project.getClient().getName(),
 						project.getTotalCost(),
 						project.getSurface(),
-						project.getProjectStatus().toString());
+						project.getProjectStatus() == null ? "PENDING" : project.getProjectStatus().toString());
 				System.out.println(
 						"+--------------------------------------------------------------------------------------------------------------+");
 			}
@@ -106,6 +119,151 @@ public class ProjectView {
 
 	}
 
+	public void subProjectMenu(Project project) {
+		int choice = -1;
+		int min = 1;
+		int max = 3;
+		isRunning = true;
+		do {
+			IO.clear();
+			System.out.println(
+					"+--------------------------------------------------------------------------------------------------------------+");
+			System.out.println(
+					"|  Id |          Project         |          Client          |       Cost      |      Surface      |   Status   |");
+			System.out.println(
+					"+--------------------------------------------------------------------------------------------------------------+");
+			System.out.printf(
+					"| %-3d | %-24s | %-24s | %13.2f £ | %14.2f m² | %-10s |\n",
+					project.getId(),
+					project.getProjectName(),
+					project.getClient().getName(),
+					project.getTotalCost(),
+					project.getSurface(),
+					project.getProjectStatus() == null ? "PENDING" : project.getProjectStatus().toString());
+			System.out.println(
+					"+--------------------------------------------------------------------------------------------------------------+");
+
+			if (project.getProjectStatus() == ProjectStatus.FINISHED)
+				return;
+
+			if (project.getProjectStatus() == null) {
+				max = 4;
+
+				System.out.println("\t\t+---------------------------------------------+");
+				System.out.println("\t\t|                                             |");
+				System.out.println("\t\t|     1- Show project summary                 |");
+				System.out.println("\t\t|     2- Mark project as validated            |");
+				System.out.println("\t\t|     3- Mark project as rejected             |");
+				System.out.println("\t\t|     4- Back                                 |");
+				System.out.println("\t\t|                                             |");
+				System.out.println("\t\t+---------------------------------------------+");
+				System.out.print("Pick your choice : ");
+
+				try {
+					choice = IO.getScanner().nextInt();
+					if (choice >= min && choice <= max) {
+						handlePendingProject(project, choice);
+					} else {
+						System.out.print("Please pick a choice between " + min + " and " + max + "...");
+						IO.getScanner().next();
+					}
+				} catch (Exception e) {
+					System.out.println("Invalid input. Please enter a valid number.");
+					IO.getScanner().next();
+					IO.getScanner().next();
+				}
+			}
+
+			if (project.getProjectStatus() == ProjectStatus.ONGOING) {
+				System.out.println("\t\t+---------------------------------------------+");
+				System.out.println("\t\t|                                             |");
+				System.out.println("\t\t|     1- Show project summary                 |");
+				System.out.println("\t\t|     2- Mark project as finished             |");
+				System.out.println("\t\t|     3- Back                                 |");
+				System.out.println("\t\t|                                             |");
+				System.out.println("\t\t+---------------------------------------------+");
+				System.out.print("Pick your choice : ");
+
+				try {
+					choice = IO.getScanner().nextInt();
+					if (choice >= min && choice <= max) {
+						handleOngoingProject(project, choice);
+					} else {
+						System.out.print("Please pick a choice between " + min + " and " + max + "...");
+						IO.getScanner().next();
+					}
+				} catch (Exception e) {
+					System.out.println("Invalid input. Please enter a valid number.");
+					IO.getScanner().next();
+					IO.getScanner().next();
+				}
+			}
+
+		} while (isRunning);
+	}
+
+	private void handleOngoingProject(Project project, int choice) {
+		switch (choice) {
+			case 1:
+				loadProject(project);
+				IO.sysPause();
+				break;
+			case 2:
+				if (!projectService.updateStatus(project, ProjectStatus.FINISHED))
+					System.out.println("Unknown error occured while updating status");
+				IO.sysPause();
+				break;
+			case 3:
+				isRunning = false;
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	private void handlePendingProject(Project project, int choice) {
+		switch (choice) {
+			case 1:
+				loadProject(project);
+				IO.sysPause();
+				break;
+			case 2:
+				if (projectService.updateStatus(project, ProjectStatus.ONGOING)) {
+					quoteService.updateStatus(project.getQuote(), true);
+				} else
+					System.out.println("Unknown error occured while updating status");
+				IO.sysPause();
+				break;
+			case 3:
+				if (projectService.updateStatus(project, ProjectStatus.CANCELLED)) {
+					quoteService.updateStatus(project.getQuote(), false);
+				} else
+					System.out.println("Unknown error occured while updating status");
+				IO.sysPause();
+				break;
+			case 4:
+				isRunning = false;
+				break;
+			default:
+				break;
+		}
+	}
+
+	private void loadProject(Project project) {
+		List<Component> components = new ArrayList<>();
+
+		List<Material> materials = materialService.getAll(project.getId());
+		List<WorkForce> workForces = workForceService.getAll(project.getId());
+
+		components.addAll(materials);
+		components.addAll(workForces);
+
+		project.setComponents(components);
+
+		showProjectSummary(project, project.getClient(), components);
+	}
+
 	public Double showProjectSummary(Project project, Client client, List<Component> components) {
 
 		List<Material> materials = components.stream()
@@ -133,6 +291,8 @@ public class ProjectView {
 		IO.clear();
 		System.out.println(
 				"+-----------------------------------------------------------------------------------------------------------------------+");
+		System.out.println(
+				"|\t                                                                                                        \t|");
 		System.out.printf(
 				"|\t           PROJECT :   %-85s \t|\n", project.getProjectName());
 		System.out.println(
@@ -211,7 +371,8 @@ public class ProjectView {
 		System.out.println(
 				"|\t                                                                                                        \t|");
 		System.out.printf(
-				"|\t Total Cost is after applying professional discount : %10.2f                                         \t|\n", totalCost);
+				"|\t Total Cost is after applying professional discount : %10.2f                                         \t|\n",
+				totalCost);
 		System.out.println(
 				"|\t                                                                                                        \t|");
 		System.out.println(

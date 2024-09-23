@@ -6,6 +6,6 @@ public interface QuoteRepository {
 
     public Quote addQuote(Quote quote);
 
-    public Boolean updateStatus(Quote quote, String[] params);
+    public Boolean updateStatus(Quote quote, Boolean is_accepted);
 
 }
