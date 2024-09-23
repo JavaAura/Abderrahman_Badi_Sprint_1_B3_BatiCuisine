@@ -4,24 +4,70 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import enums.ProjectStatus;
+import model.Client;
 import model.Project;
+import model.Quote;
 import repository.ProjectRepository;
 import util.DatabaseConnection;
 import util.LoggerUtils;
 
 public class ProjectService implements ProjectRepository {
 
-    // private static final String SQL_LIST = "SELECT * FROM public.project JOIN public.client ON project.user_id = client.id JOIN public.quote ON project.quote_id = quote.id ORDER BY project.id ASC";
-    private static final String SQL_INSERT = "INSERT INTO public.project(project_name, profit_margin, total_cost, surface, vat_rate,client_id, quote_id) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String SQL_LIST = "SELECT project.id, project.project_name, project.profit_margin, project.total_cost, project.project_status, project.surface, project.vat_rate, client.id AS client_id, client.name, client.address, client.phone_number, client.is_professional, quote.id AS quote_id, quote.estimated_amount, quote.issue_date, quote.validity_date, quote.is_accepted FROM public.project JOIN public.client ON project.client_id = client.id JOIN public.quote ON project.quote_id = quote.id WHERE project_status = ? ORDER BY project.id ASC";
+
+    private static final String SQL_INSERT = "INSERT INTO public.project(project_name, profit_margin, total_cost, surface, vat_rate, client_id, quote_id) VALUES (?, ?, ?, ?, ?, ?)";
 
     @Override
-    public Optional<Project> get(long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
+    public List<Project> getAll(ProjectStatus status) {
+        List<Project> projects = new ArrayList<>();
+
+        try (Connection connection = DatabaseConnection.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(SQL_LIST)) {
+            stmt.setObject(1, status.name(), java.sql.Types.OTHER);
+            try (ResultSet rs = stmt.executeQuery();) {
+                while (rs.next()) {
+                    long id = rs.getLong("id");
+                    String projectName = rs.getString("project_name");
+                    Double profitMargin = rs.getDouble("profit_margin");
+                    Double totalCost = rs.getDouble("total_cost");
+                    ProjectStatus projectStatus = ProjectStatus.valueOf(rs.getString("project_status"));
+                    Double surface = rs.getDouble("surface");
+                    Double vatRate = rs.getDouble("vat_rate");
+
+                    long client_id = rs.getLong("client_id");
+                    String name = rs.getString("name");
+                    String address = rs.getString("address");
+                    String phoneNumber = rs.getString("phone_number");
+                    Boolean isProfessional = rs.getBoolean("is_professional");
+
+                    Client client = new Client(client_id, name, address, phoneNumber, isProfessional);
+
+                    long quote_id = rs.getLong("quote_id");
+                    Double estimatedAmount = rs.getDouble("estimated_amount");
+                    LocalDate issuDate = rs.getDate("issue_date") != null ? rs.getDate("issue_date").toLocalDate() : null;
+                    LocalDate validityDate = rs.getDate("validity_date") != null ? rs.getDate("validity_date").toLocalDate() : null;
+                    Boolean isAccepted = rs.getBoolean("is_accepted");
+
+                    Quote quote = new Quote(quote_id, estimatedAmount, issuDate, validityDate, isAccepted);
+
+                    Project project = new Project(id, projectName, profitMargin, totalCost, projectStatus, surface,
+                            vatRate, client, quote);
+
+                    projects.add(project);
+
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Unexpected error occured while retrieving projects");
+            LoggerUtils.logger.warning(e.getMessage());
+            LoggerUtils.logStackTrace(e);
+        }
+        return projects;
     }
 
     @Override
@@ -40,7 +86,7 @@ public class ProjectService implements ProjectRepository {
             if (n > 0) {
                 try (ResultSet rs = stmt.getGeneratedKeys()) {
                     if (rs.next()) {
-                        long generatedId = rs.getLong(1); 
+                        long generatedId = rs.getLong(1);
                         project.setId(generatedId);
                         LoggerUtils.logger.info("Project added successfully with ID: " + generatedId);
                         return project;
@@ -55,12 +101,6 @@ public class ProjectService implements ProjectRepository {
             LoggerUtils.logStackTrace(e);
         }
         return null;
-    }
-
-    @Override
-    public List<Project> getAll(ProjectStatus projectStatus) {
-
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
     }
 
     @Override

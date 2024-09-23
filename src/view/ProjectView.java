@@ -60,24 +60,24 @@ public class ProjectView {
 		}
 
 		do {
+			IO.clear();
 			System.out.println(
-					"+-------------------------------------------------------------------------------------------------------------+");
+					"+--------------------------------------------------------------------------------------------------------------+");
 			System.out.println(
-					"| Id |           Title          |          Author          |   Cost   |  Margin  |    Surface    |   Status   |");
+					"|  Id |          Project         |          Client          |       Cost      |      Surface      |   Status   |");
 			System.out.println(
-					"+-------------------------------------------------------------------------------------------------------------+");
+					"+--------------------------------------------------------------------------------------------------------------+");
 			for (Project project : projects) {
 				System.out.printf(
-						"| %-3d| %-24s | %-24s | %-8d |  %-2.2f %  |  %-6.2f m²  | %10s |\n",
+						"| %-3d | %-24s | %-24s | %13.2f £ | %14.2f m² | %-10s |\n",
 						project.getId(),
 						project.getProjectName(),
 						project.getClient().getName(),
 						project.getTotalCost(),
-						project.getProfitMargin(),
 						project.getSurface(),
 						project.getProjectStatus().toString());
 				System.out.println(
-						"+-------------------------------------------------------------------------------------------------------------+");
+						"+--------------------------------------------------------------------------------------------------------------+");
 			}
 
 			System.out.print(
@@ -128,6 +128,9 @@ public class ProjectView {
 
 		Double totalWorkForceVAT = totalWorkForce + (totalWorkForce * project.getVatRate() / 100);
 
+		Double totalCost = (totalMaterialVAT + totalWorkForceVAT) * (client.getIsProfessional() ? 0.9 : 1);
+
+		IO.clear();
 		System.out.println(
 				"+-----------------------------------------------------------------------------------------------------------------------+");
 		System.out.printf(
@@ -207,9 +210,17 @@ public class ProjectView {
 				"|\t                                                                                                        \t|");
 		System.out.println(
 				"|\t                                                                                                        \t|");
+		System.out.printf(
+				"|\t Total Cost is after applying professional discount : %10.2f                                         \t|\n", totalCost);
+		System.out.println(
+				"|\t                                                                                                        \t|");
+		System.out.println(
+				"|\t                                                                                                        \t|");
 		System.out.println(
 				"+-----------------------------------------------------------------------------------------------------------------------+");
-		return (totalMaterialVAT + totalWorkForceVAT) * (client.getIsProfessional() ? 0.9 : 1);
+
+		return totalCost;
+
 	}
 
 }

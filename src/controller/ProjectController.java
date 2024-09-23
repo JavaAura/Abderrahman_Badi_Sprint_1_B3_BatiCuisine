@@ -72,7 +72,7 @@ public class ProjectController {
         components.addAll(workForces);
 
         Double totalCost = projectView.showProjectSummary(project, selectedClient, components);
-        System.out.printf("Total Cost is after applying professional discount : %10.2f \n", totalCost);
+        
         IO.sysPause();
         if (InputValidator.promptYesOrNo("Do you want to save the project")) {
             Quote quote = quoteService.addQuote(new Quote(totalCost, LocalDate.now()));

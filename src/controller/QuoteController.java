@@ -34,6 +34,6 @@ public class QuoteController {
 
         selectedProject.setComponents(components);
 
-        projectView.showProjectSummary(selectedProject, null, components)
+        projectView.showProjectSummary(selectedProject, selectedProject.getClient(), components);
     }
 }
