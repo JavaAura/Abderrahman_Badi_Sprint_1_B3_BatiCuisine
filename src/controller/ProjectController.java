@@ -74,6 +74,7 @@ public class ProjectController {
             if (quote != null)
                 System.out.println("Quote generated.");
 
+            project.setTotalCost(totalCost);
             project.setClient(selectedClient);
             project.setQuote(quote);
 

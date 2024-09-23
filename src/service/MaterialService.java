@@ -12,7 +12,7 @@ import repository.MaterialRepository;
 
 public class MaterialService implements MaterialRepository {
 
-    private static final String SQL_INSERT = "INSERT INTO  public.material (name , component_type , project_id, transport_cost, quality_coefficient, quantity, unit_cost) VALUES(? , ? , ? , ? , ? , ?, ?)";
+    private static final String SQL_INSERT = "INSERT INTO  public.material (component_name, component_type , project_id, transport_cost, quality_coefficient, quantity, unit_cost) VALUES(? , ? , ? , ? , ? , ?, ?)";
 
     @Override
     public Boolean addMaterial(List<Material> materials, long project_id) {
@@ -37,7 +37,7 @@ public class MaterialService implements MaterialRepository {
             }
 
             return true;
-            
+
         } catch (SQLException e) {
             System.out.println("Unexpected error occured while inserting materials");
             LoggerUtils.logger.warning(e.getMessage());

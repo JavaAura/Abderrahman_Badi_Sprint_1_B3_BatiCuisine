@@ -13,7 +13,8 @@ PGSQL_JAR_PATH="./lib/postgresql-42.7.4.jar"
 
 # Compile options
 CLASSPATH="$PGSQL_JAR_PATH"
-COMPILE_OPTS="-d $CLASS_DIR -classpath $CLASSPATH"
+COMPILE_OPTS="-d $CLASS_DIR -classpath $CLASSPATH -encoding UTF-8"
+JAVA_OPTS="-Dfile.encoding=UTF-8 -jar"
 
 # Create the necessary directories if they don't exist
 mkdir -p $CLASS_DIR $JAR_DIR
@@ -60,5 +61,5 @@ rm -rf "$CLASS_DIR"
 echo "Cleanup completed."
 
 echo "Running project"
-java -jar $JAR_DIR/$JAR_NAME
+java $JAVA_OPTS $JAR_DIR/$JAR_NAME
 

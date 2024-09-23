@@ -12,7 +12,7 @@ import repository.WorkForceRepository;
 
 public class WorkForceService implements WorkForceRepository {
 
-    private static final String SQL_INSERT = "INSERT INTO  public.work_force (name , component_type, project_id, hourly_rate, work_hours, worker_productivity) VALUES(? , ? , ? , ? , ? , ?)";
+    private static final String SQL_INSERT = "INSERT INTO  public.work_force (component_name, component_type, project_id, hourly_rate, work_hours, worker_productivity) VALUES(? , ? , ? , ? , ? , ?)";
 
     @Override
     public Boolean addWorkForce(List<WorkForce> workForces, long project_id) {
@@ -28,7 +28,8 @@ public class WorkForceService implements WorkForceRepository {
 
                 int n = stmt.executeUpdate();
                 if (n == 1) {
-                    LoggerUtils.logger.info("Component of type \"Material\" added successfully: " + workForce.getName());
+                    LoggerUtils.logger
+                            .info("Component of type \"Material\" added successfully: " + workForce.getName());
                 } else {
                     LoggerUtils.logger.warning("Failed to add component: " + workForce.getName());
                 }

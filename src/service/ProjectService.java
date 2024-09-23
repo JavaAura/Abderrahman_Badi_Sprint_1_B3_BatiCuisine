@@ -16,7 +16,7 @@ import util.LoggerUtils;
 public class ProjectService implements ProjectRepository {
 
     // private static final String SQL_LIST = "SELECT * FROM public.project JOIN public.client ON project.user_id = client.id JOIN public.quote ON project.quote_id = quote.id ORDER BY project.id ASC";
-    private static final String SQL_INSERT = "INSERT INTO public.project(project_name, profit_margin, total_cost, surface, user_id, quote_id) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String SQL_INSERT = "INSERT INTO public.project(project_name, profit_margin, total_cost, surface, client_id, quote_id) VALUES (?, ?, ?, ?, ?, ?)";
 
     @Override
     public Optional<Project> get(long id) {
