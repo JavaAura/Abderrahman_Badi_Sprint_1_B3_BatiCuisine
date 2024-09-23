@@ -209,8 +209,10 @@ public class ProjectView {
 				IO.sysPause();
 				break;
 			case 2:
-				if (!projectService.updateStatus(project, ProjectStatus.FINISHED))
-					System.out.println("Unknown error occured while updating status");
+				if (projectService.updateStatus(project, ProjectStatus.FINISHED)) {
+					System.out.println("Project status updated successfully!");
+					isRunning = false; // Quit the menu
+				}
 				IO.sysPause();
 				break;
 			case 3:
@@ -229,15 +231,21 @@ public class ProjectView {
 				IO.sysPause();
 				break;
 			case 2:
-				if (projectService.updateStatus(project, ProjectStatus.ONGOING))
+				if (projectService.updateStatus(project, ProjectStatus.ONGOING)) {
+					System.out.println("Project status updated successfully!");
 					quoteService.updateStatus(project.getQuote(), true);
-
+					isRunning = false; // Quit the menu
+				}
+				
 				IO.sysPause();
 				break;
 			case 3:
-				if (projectService.updateStatus(project, ProjectStatus.CANCELLED))
+				if (projectService.updateStatus(project, ProjectStatus.CANCELLED)) {
+					System.out.println("Project status updated successfully!");
 					quoteService.updateStatus(project.getQuote(), false);
-					
+					isRunning = false; // Quit the menu
+				}
+				
 				IO.sysPause();
 				break;
 			case 4:
