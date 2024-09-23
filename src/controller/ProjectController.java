@@ -1,9 +1,11 @@
 package controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Client;
+import model.Component;
 import model.Material;
 import model.Project;
 import model.Quote;
@@ -60,13 +62,16 @@ public class ProjectController {
     }
 
     public void addProjectUI() {
-
+        List<Component> components = new ArrayList<>();
         Client selectedClient = startClientMenu();
         Project project = projectView.addProjectUI();
+
         List<Material> materials = componentView.addMaterialUI();
         List<WorkForce> workForces = componentView.addWorkForceUI();
+        components.addAll(materials);
+        components.addAll(workForces);
 
-        Double totalCost = projectView.showProjectSummary(project, selectedClient, materials, workForces);
+        Double totalCost = projectView.showProjectSummary(project, selectedClient, components);
         System.out.printf("Total Cost is after applying professional discount : %10.2f \n", totalCost);
         IO.sysPause();
         if (InputValidator.promptYesOrNo("Do you want to save the project")) {

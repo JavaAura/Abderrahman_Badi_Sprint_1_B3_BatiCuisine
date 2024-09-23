@@ -7,6 +7,7 @@ import view.menu.MainMenu;
 public class MenuController {
     private View mainMenu = new MainMenu();
     private ProjectController projectController = new ProjectController();
+    private QuoteController quoteController = new QuoteController();
     private boolean isRunning = true;
 
     public void startMainMenu() {
@@ -26,7 +27,7 @@ public class MenuController {
                 projectController.startProjectMenu();
                 break;
             case 3:
-                System.out.println("Calculate costs");
+                quoteController.startQuoteMenu();
                 mainMenu.back();
                 break;
             case 4:

@@ -2,7 +2,9 @@ package view;
 
 import java.util.List;
 
+import enums.ComponentType;
 import model.Client;
+import model.Component;
 import model.Project;
 import model.Material;
 import model.WorkForce;
@@ -79,42 +81,51 @@ public class ProjectView {
 			}
 
 			System.out.print(
-				"0 - Return to Project Menu \nPlease pick a project by entering their ID \nProject ID : ");
-		try {
-			int selectedId = IO.getScanner().nextInt();
-			if (selectedId == 0)
-				return selectedProject;
-			selectedProject = projects.stream()
-					.filter(project -> project.getId() == selectedId)
-					.findFirst()
-					.orElse(null);
+					"0 - Return to Project Menu \nPlease pick a project by entering their ID \nProject ID : ");
+			try {
+				int selectedId = IO.getScanner().nextInt();
+				if (selectedId == 0)
+					return selectedProject;
+				selectedProject = projects.stream()
+						.filter(project -> project.getId() == selectedId)
+						.findFirst()
+						.orElse(null);
 
-			if (selectedProject == null) {
-				System.out.println("Invalid ID. Please try again.");
+				if (selectedProject == null) {
+					System.out.println("Invalid ID. Please try again.");
+					IO.getScanner().next();
+				}
+			} catch (Exception e) {
+				System.out.println("Invalid input. Please enter a valid number.");
+				IO.getScanner().next();
 				IO.getScanner().next();
 			}
-		} catch (Exception e) {
-			System.out.println("Invalid input. Please enter a valid number.");
-			IO.getScanner().next();
-			IO.getScanner().next();
-		}
 		} while (selectedProject == null);
 
 		return selectedProject;
 
 	}
 
-	public Double showProjectSummary(Project project, Client client, List<Material> materials,
-			List<WorkForce> workForces) {
+	public Double showProjectSummary(Project project, Client client, List<Component> components) {
+
+		List<Material> materials = components.stream()
+				.filter(component -> component.getComponentType() == ComponentType.MATERIAL)
+				.map(component -> (Material) component).toList();
+
+		List<WorkForce> workForces = components.stream()
+				.filter(component -> component.getComponentType() == ComponentType.WORKFORCE)
+				.map(component -> (WorkForce) component).toList();
 
 		Double totalMaterial = materials.stream()
 				.mapToDouble(Material::calculateCost)
 				.sum();
+
 		Double totalMaterialVAT = totalMaterial + (totalMaterial * project.getVatRate() / 100);
 
 		Double totalWorkForce = workForces.stream()
 				.mapToDouble(WorkForce::calculateCost)
 				.sum();
+
 		Double totalWorkForceVAT = totalWorkForce + (totalWorkForce * project.getVatRate() / 100);
 
 		System.out.println(
