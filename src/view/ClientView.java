@@ -39,9 +39,13 @@ public class ClientView {
             System.out.println(
                     "+-------------------------------------------------------------------------------------------------------------+");
             System.out.println(
+                    "|                                                                                                             |");
+            System.out.println(
                     "|                                               No clients found                                              |");
             System.out.println(
-                    "+-------------------------------------------------------------------------------------------------------------+\n\n\n");
+                    "|                                                                                                             |");
+            System.out.println(
+                    "+-------------------------------------------------------------------------------------------------------------+\n\n");
 
             IO.sysPause();
             return null;
@@ -83,6 +87,7 @@ public class ClientView {
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input. Please enter a valid number.");
+                IO.getScanner().next();
                 IO.getScanner().next();
             }
 
