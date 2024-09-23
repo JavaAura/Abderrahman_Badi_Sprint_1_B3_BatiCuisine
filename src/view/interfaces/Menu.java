@@ -1,6 +1,6 @@
 package view.interfaces;
 
-public interface View{
+public interface Menu{
     public int display();
     public void back();
 }

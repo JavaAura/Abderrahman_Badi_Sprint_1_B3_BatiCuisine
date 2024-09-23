@@ -19,7 +19,7 @@ import service.WorkForceService;
 import view.ClientView;
 import view.ComponentView;
 import view.ProjectView;
-import view.interfaces.View;
+import view.interfaces.Menu;
 import view.menu.ProjectMenu;
 
 import util.IO;
@@ -27,7 +27,7 @@ import util.InputValidator;
 
 public class ProjectController {
 
-    private View projectMenu = new ProjectMenu();
+    private Menu projectMenu = new ProjectMenu();
     private ProjectView projectView = new ProjectView();
     private ClientView clientView = new ClientView();
     private ComponentView componentView = new ComponentView();

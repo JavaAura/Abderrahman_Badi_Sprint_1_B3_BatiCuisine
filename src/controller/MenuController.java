@@ -1,11 +1,11 @@
 package controller;
 
 import util.IO;
-import view.interfaces.View;
+import view.interfaces.Menu;
 import view.menu.MainMenu;
 
 public class MenuController {
-    private View mainMenu = new MainMenu();
+    private Menu mainMenu = new MainMenu();
     private ProjectController projectController = new ProjectController();
     private QuoteController quoteController = new QuoteController();
     private boolean isRunning = true;

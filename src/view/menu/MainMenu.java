@@ -3,9 +3,9 @@ package view.menu;
 import java.util.Scanner;
 
 import util.IO;
-import view.interfaces.View;
+import view.interfaces.Menu;
 
-public class MainMenu implements View {
+public class MainMenu implements Menu {
 
 
     Scanner in = IO.getScanner();
