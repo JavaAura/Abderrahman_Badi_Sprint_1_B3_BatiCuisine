@@ -1,6 +1,6 @@
 package controller;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 import model.Client;
@@ -66,9 +66,29 @@ public class ProjectController {
         List<Material> materials = componentView.addMaterialUI();
         List<WorkForce> workForces = componentView.addWorkForceUI();
 
-        projectView.showProjectSummary(project, selectedClient, materials, workForces);
-        if(InputValidator.promptYesOrNo("Do you want to save the project")){
+        Double totalCost = projectView.showProjectSummary(project, selectedClient, materials, workForces);
+        System.out.printf("Total Cost is after applying professional discount : %10.2f \n", totalCost);
+        IO.sysPause();
+        if (InputValidator.promptYesOrNo("Do you want to save the project")) {
+            Quote quote = quoteService.addQuote(new Quote(totalCost, LocalDate.now()));
+            if (quote != null)
+                System.out.println("Quote generated.");
 
+            project.setClient(selectedClient);
+            project.setQuote(quote);
+
+            Project addedProject = projectService.addProject(project);
+
+            if (materialService.addMaterial(materials, addedProject.getId())) {
+                System.out.println("** Materials added successfully! **");
+            }
+
+            if (workForceService.addWorkForce(workForces, addedProject.getId())) {
+                System.out.println("** Work Forces added successfully! **");
+            }
+
+            System.out.println("Project saved successfully !");
+            IO.sysPause();
         }
     }
 
@@ -95,7 +115,7 @@ public class ProjectController {
     }
 
     public Client handleClientMenuChoice(int choice) {
-        Client client = new Client();
+        Client client = null;
 
         switch (choice) {
             case 1:

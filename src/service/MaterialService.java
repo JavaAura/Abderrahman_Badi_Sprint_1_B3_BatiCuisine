@@ -39,6 +39,7 @@ public class MaterialService implements MaterialRepository {
             return true;
             
         } catch (SQLException e) {
+            System.out.println("Unexpected error occured while inserting materials");
             LoggerUtils.logger.warning(e.getMessage());
             LoggerUtils.logStackTrace(e);
         }

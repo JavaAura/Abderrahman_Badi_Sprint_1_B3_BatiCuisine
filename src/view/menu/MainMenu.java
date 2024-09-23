@@ -38,6 +38,7 @@ public class MainMenu implements View {
         } catch (Exception e) {
             System.out.println("Please pick a valid number...");
             in.next();
+            in.next();
         }
         return input;
     }

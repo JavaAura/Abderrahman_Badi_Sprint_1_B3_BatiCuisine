@@ -20,7 +20,7 @@ public class ProjectView {
         Double vatRate = InputValidator
                 .promptAndParseNullableDouble("VAT Rate ( 0 if not applicale ) : ");
 
-        return new Project(name, surface, vatRate, profitMargin);
+        return new Project(name, profitMargin, surface, vatRate);
     }
 
     public int clientMenu() {
@@ -108,42 +108,56 @@ public class ProjectView {
                 "+---------------------------------------------------------------------------------------------------------------------+");
     }
 
-    public void showProjectSummary(Project project, Client client, List<Material> materials,
+    public Double showProjectSummary(Project project, Client client, List<Material> materials,
             List<WorkForce> workForces) {
+
+        Double totalMaterial = materials.stream()
+                .mapToDouble(Material::calculateCost)
+                .sum();
+        Double totalMaterialVAT = totalMaterial + (totalMaterial * project.getVatRate() / 100);
+
+        Double totalWorkForce = workForces.stream()
+                .mapToDouble(WorkForce::calculateCost)
+                .sum();
+        Double totalWorkForceVAT = totalWorkForce + (totalWorkForce * project.getVatRate() / 100);
+
         System.out.println(
-                "+---------------------------------------------------------------------------------------------------------------------+");
+                "+-----------------------------------------------------------------------------------------------------------------------+");
         System.out.printf(
-                "|\t ID : %-3d     %-61s \t|\n", project.getId(),
-                project.getProjectName());
+                "|\t           PROJECT :   %-85s \t|\n", project.getProjectName());
         System.out.println(
-                "|\t                                                                                                     \t|");
+                "|\t                                                                                                        \t|");
         System.out.println(
-                "|\t                                                                                                     \t|");
+                "|\t                                                                                                        \t|");
         // 101 spaces
         System.out.printf(
-                "|\t \t Client : %-81s \t|\n", client.getName());
+                "|\t \t Client : %-84s      \t|\n", client.getName());
         System.out.printf(
-                "|\t \t Site Address : %-75s \t|\n", client.getAddress());
+                "|\t \t Site Address : %-78s      \t|\n", client.getAddress());
         System.out.printf(
-                "|\t \t Surface : %-5.3f m²                                                                      \t|\n",
+                "|\t \t Surface : %-10.2f m²                                                                          \t|\n",
                 project.getSurface());
         System.out.printf(
-                "|\t \t Profit Margin : %-2.2f %                                                                     \t|\n",
+                "|\t \t Profit Margin : %-5.2f %%                                                                          \t|\n",
                 project.getProfitMargin());
         System.out.printf(
-                "|\t \t VAT Rate : %-2.2f %                                                                          \t|\n",
+                "|\t \t VAT Rate : %-5.2f %%                                                                               \t|\n",
                 project.getVatRate());
         System.out.println(
-                "|\t                                                                                                     \t|");
+                "|\t                                                                                                        \t|");
         System.out.println(
-                "|\t                                          Components Details                                         \t|");
+                "|\t                                                                                                        \t|");
         System.out.println(
-                "|\t                                                                                                     \t|");
+                "|\t                                            Components Details                                          \t|");
         System.out.println(
-                "|\t---------------------------------------------  Material  --------------------------------------------\t|");
+                "|\t                                                                                                        \t|");
+        System.out.println(
+                "|------------------------------------------------------  Material  -----------------------------------------------------|");
+        System.out.println(
+                "|\t                                                                                                        \t|");
         for (Material material : materials) {
             System.out.printf(
-                    "|\t - %-15s: %-4.2f £ (Quantity : %-3.1f, Unit Cost : %3.1f, Quality: %1.1f, Transport: %3.2f) \t|\n",
+                    "|\t - %-15s: %-9.2f £ (Quantity : %-7.2f, Unit Cost : %6.2f, Quality: %3.1f, Transport: %-6.2f) \t|\n",
                     material.getName(),
                     material.calculateCost(),
                     material.getQuantity(),
@@ -151,45 +165,44 @@ public class ProjectView {
                     material.getQualityCoefficient(),
                     material.getTransportCost());
         }
-        System.out.printf(
-                "|\t    Total cost before applying VAT : %6.2f £                                                     \t|\n",
-                materials.stream()
-                        .mapToDouble(Material::calculateCost)
-                        .sum());
-        System.out.printf(
-                "|\t    Total cost after applying VAT : %6.2f £                                                      \t|\n",
-                materials.stream()
-                        .mapToDouble(Material::calculateCost)
-                        .sum() * project.getVatRate() / 100);
         System.out.println(
-                "|\t                                                                                                     \t|");
+                "|\t                                                                                                        \t|");
+        System.out.printf(
+                "|\t    Total cost before applying VAT : %10.2f £                                                         \t|\n",
+                totalMaterial);
+        System.out.printf(
+                "|\t    Total cost after applying VAT : %10.2f £                                                          \t|\n",
+                totalMaterialVAT);
         System.out.println(
-                "|\t--------------------------------------------  Work Force  -------------------------------------------\t|");
+                "|\t                                                                                                        \t|");
+        System.out.println(
+                "|-----------------------------------------------------  Work Force  ----------------------------------------------------|");
+        System.out.println(
+                "|\t                                                                                                        \t|");
         for (WorkForce workForce : workForces) {
             System.out.printf(
-                    "|\t - %-21s: %-4.2f £ (Hourly Rate: %-3.1f £/h, Work Hours: %3.1f h, Productivity: %1.1f) \t|\n",
+                    "|\t - %-21s: %-9.2f £ (Hourly Rate: %-6.2f £/h, Work Hours: %7.2f h, Productivity: %3.1f)      \t|\n",
                     workForce.getName(),
                     workForce.calculateCost(),
                     workForce.getHourlyRate(),
                     workForce.getWorkHours(),
                     workForce.getWorkerProductivity());
         }
+        System.out.println(
+                "|\t                                                                                                        \t|");
         System.out.printf(
-                "|\t    Total cost before applying VAT : %6.2f £                                                     \t|\n",
-                workForces.stream()
-                        .mapToDouble(WorkForce::calculateCost)
-                        .sum());
+                "|\t    Total cost before applying VAT : %10.2f £                                                         \t|\n",
+                totalWorkForce);
         System.out.printf(
-                "|\t    Total cost after applying VAT : %6.2f £                                                      \t|\n",
-                workForces.stream()
-                        .mapToDouble(WorkForce::calculateCost)
-                        .sum() * project.getVatRate() / 100);
+                "|\t    Total cost after applying VAT : %10.2f £                                                          \t|\n",
+                totalWorkForceVAT);
         System.out.println(
-                "|\t                                                                                                     \t|");
+                "|\t                                                                                                        \t|");
         System.out.println(
-                "|\t                                                                                                     \t|");
+                "|\t                                                                                                        \t|");
         System.out.println(
-                "+---------------------------------------------------------------------------------------------------------------------+");
+                "+-----------------------------------------------------------------------------------------------------------------------+");
+        return (totalMaterialVAT + totalWorkForceVAT) * (client.getIsProfessional() ? 0.9 : 1 );
     }
 
 }

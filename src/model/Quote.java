@@ -12,11 +12,9 @@ public class Quote {
   public Quote() {
   }
 
-  public Quote(double estimatedAmount, LocalDate issueDate, LocalDate validityDate, boolean isAccepted) {
+  public Quote(double estimatedAmount, LocalDate issueDate) {
     this.estimatedAmount = estimatedAmount;
     this.issueDate = issueDate;
-    this.validityDate = validityDate;
-    this.isAccepted = isAccepted;
   }
 
   public Quote(long id, double estimatedAmount, LocalDate issueDate, LocalDate validityDate, boolean isAccepted) {

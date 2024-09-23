@@ -37,6 +37,7 @@ public class WorkForceService implements WorkForceRepository {
             return true;
 
         } catch (SQLException e) {
+            System.out.println("Unexpected error occured while inserting work forces");
             LoggerUtils.logger.warning(e.getMessage());
             LoggerUtils.logStackTrace(e);
         }
