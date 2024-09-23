@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Create an output directory if it doesn't exist
+# Variables
 SRC_DIR="./src"
 CLASS_DIR="./out/production/BatiCuisine"
 MANIFEST_FILE="./MANIFEST.MF"

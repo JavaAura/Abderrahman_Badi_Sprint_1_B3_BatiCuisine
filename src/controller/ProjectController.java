@@ -64,6 +64,10 @@ public class ProjectController {
     public void addProjectUI() {
         List<Component> components = new ArrayList<>();
         Client selectedClient = startClientMenu();
+
+        if (selectedClient == null)
+            return;
+
         Project project = projectView.addProjectUI();
 
         List<Material> materials = componentView.addMaterialUI();
@@ -72,7 +76,7 @@ public class ProjectController {
         components.addAll(workForces);
 
         Double totalCost = projectView.showProjectSummary(project, selectedClient, components);
-        
+
         IO.sysPause();
         if (InputValidator.promptYesOrNo("Do you want to save the project")) {
             Quote quote = quoteService.addQuote(new Quote(totalCost, LocalDate.now()));
