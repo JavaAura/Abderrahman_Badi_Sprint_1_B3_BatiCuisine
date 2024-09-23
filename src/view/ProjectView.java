@@ -229,17 +229,15 @@ public class ProjectView {
 				IO.sysPause();
 				break;
 			case 2:
-				if (projectService.updateStatus(project, ProjectStatus.ONGOING)) {
+				if (projectService.updateStatus(project, ProjectStatus.ONGOING))
 					quoteService.updateStatus(project.getQuote(), true);
-				} else
-					System.out.println("Unknown error occured while updating status");
+
 				IO.sysPause();
 				break;
 			case 3:
-				if (projectService.updateStatus(project, ProjectStatus.CANCELLED)) {
+				if (projectService.updateStatus(project, ProjectStatus.CANCELLED))
 					quoteService.updateStatus(project.getQuote(), false);
-				} else
-					System.out.println("Unknown error occured while updating status");
+					
 				IO.sysPause();
 				break;
 			case 4:

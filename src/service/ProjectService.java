@@ -23,7 +23,7 @@ public class ProjectService implements ProjectRepository {
     private static final String SQL_LIST_WHERE_NULL = "SELECT project.id, project.project_name, project.profit_margin, project.total_cost, project.project_status, project.surface, project.vat_rate, client.id AS client_id, client.name, client.address, client.phone_number, client.is_professional, quote.id AS quote_id, quote.estimated_amount, quote.issue_date, quote.validity_date, quote.is_accepted FROM public.project JOIN public.client ON project.client_id = client.id JOIN public.quote ON project.quote_id = quote.id WHERE project_status IS NULL ORDER BY project.id ASC";
 
     private static final String SQL_INSERT = "INSERT INTO public.project(project_name, profit_margin, total_cost, surface, vat_rate, client_id, quote_id) VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String SQL_UPDATE = "UPADTE public.project SET project_status = ? WHERE id = ?";
+    private static final String SQL_UPDATE = "UPDATE public.project SET project_status = ? WHERE id = ?";
 
     @Override
     public List<Project> getAll(ProjectStatus status) {
