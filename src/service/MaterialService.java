@@ -12,7 +12,7 @@ import repository.MaterialRepository;
 
 public class MaterialService implements MaterialRepository {
 
-    private static final String SQL_INSERT = "INSERT INTO  public.material (component_name, component_type , project_id, transport_cost, quality_coefficient, quantity, unit_cost) VALUES(? , ? , ? , ? , ? , ?, ?)";
+    private static final String SQL_INSERT = "INSERT INTO  public.material (component_name, component_type , project_id, transport_cost, quality_coefficient, quantity, unit_cost) VALUES(?, ?::component_type, ?, ?, ?, ?, ?)";
 
     @Override
     public Boolean addMaterial(List<Material> materials, long project_id) {

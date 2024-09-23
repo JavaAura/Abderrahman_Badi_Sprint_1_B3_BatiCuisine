@@ -12,7 +12,7 @@ import repository.WorkForceRepository;
 
 public class WorkForceService implements WorkForceRepository {
 
-    private static final String SQL_INSERT = "INSERT INTO  public.work_force (component_name, component_type, project_id, hourly_rate, work_hours, worker_productivity) VALUES(? , ? , ? , ? , ? , ?)";
+    private static final String SQL_INSERT = "INSERT INTO  public.work_force (component_name, component_type, project_id, hourly_rate, work_hours, worker_productivity) VALUES(?, ?::component_type, ?, ?, ?, ?)";
 
     @Override
     public Boolean addWorkForce(List<WorkForce> workForces, long project_id) {

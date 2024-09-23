@@ -20,7 +20,7 @@
 *.tar.gz
 *.rar
 
-src/logs/*.log
+src/logs/*
 
 out/
 
