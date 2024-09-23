@@ -122,8 +122,19 @@ public class ProjectController {
             case 3:
                 projects = projectService.getAll(ProjectStatus.FINISHED);
                 selectedProject = projectView.listProjects(projects);
-                if (selectedProject != null)
-                    projectView.subProjectMenu(selectedProject);
+                List<Component> components = new ArrayList<>();
+                if (selectedProject == null)
+                    return;
+
+                List<Material> materials = materialService.getAll(selectedProject.getId());
+                List<WorkForce> workForces = workForceService.getAll(selectedProject.getId());
+
+                components.addAll(materials);
+                components.addAll(workForces);
+
+                selectedProject.setComponents(components);
+
+                projectView.showProjectSummary(selectedProject, selectedProject.getClient(), components);   
                 break;
             case 4:
                 isRunning = false;
