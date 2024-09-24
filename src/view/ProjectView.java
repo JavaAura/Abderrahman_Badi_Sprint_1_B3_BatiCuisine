@@ -319,6 +319,9 @@ public class ProjectView {
 		System.out.printf(
 				"|\t \t VAT Rate : %-5.2f %%                                                                               \t|\n",
 				project.getVatRate());
+		System.out.printf(
+				"|\t \t Project Status : %-9s                                                                        \t|\n",
+				project.getProjectStatus() == null ? "PENDING" : project.getProjectStatus());
 		System.out.println(
 				"|\t                                                                                                        \t|");
 		System.out.println(

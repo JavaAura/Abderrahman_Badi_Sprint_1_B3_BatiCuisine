@@ -134,7 +134,8 @@ public class ProjectController {
 
                 selectedProject.setComponents(components);
 
-                projectView.showProjectSummary(selectedProject, selectedProject.getClient(), components);   
+                projectView.showProjectSummary(selectedProject, selectedProject.getClient(), components); 
+                IO.sysPause();  
                 break;
             case 4:
                 isRunning = false;
