@@ -2,6 +2,7 @@ package view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import enums.ComponentType;
 import enums.ProjectStatus;
@@ -14,6 +15,7 @@ import service.MaterialService;
 import service.ProjectService;
 import service.QuoteService;
 import service.WorkForceService;
+
 import util.IO;
 import util.InputValidator;
 
@@ -274,11 +276,11 @@ public class ProjectView {
 
 		List<Material> materials = components.stream()
 				.filter(component -> component.getComponentType() == ComponentType.MATERIAL)
-				.map(component -> (Material) component).toList();
+				.map(component -> (Material) component).collect(Collectors.toList());
 
 		List<WorkForce> workForces = components.stream()
 				.filter(component -> component.getComponentType() == ComponentType.WORKFORCE)
-				.map(component -> (WorkForce) component).toList();
+				.map(component -> (WorkForce) component).collect(Collectors.toList());
 
 		Double totalMaterial = materials.stream()
 				.mapToDouble(Material::calculateCost)

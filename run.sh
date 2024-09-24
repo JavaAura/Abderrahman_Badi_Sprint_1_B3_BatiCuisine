@@ -13,7 +13,7 @@ PGSQL_JAR_PATH="./lib/postgresql-42.7.4.jar"
 
 # Compile options
 CLASSPATH="$PGSQL_JAR_PATH"
-COMPILE_OPTS="-d $CLASS_DIR -classpath $CLASSPATH -encoding UTF-8"
+COMPILE_OPTS="--release 8 -d $CLASS_DIR -classpath $CLASSPATH -encoding UTF-8"
 JAVA_OPTS="-Dfile.encoding=UTF-8 -jar"
 
 # Create the necessary directories if they don't exist
